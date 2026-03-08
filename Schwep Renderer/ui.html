@@ -7,19 +7,24 @@
 <style>
   /* System fonts only — external @import blocks plugin from opening in Figma sandbox */
   :root {
-    --bg: #0C0C0F;
-    --surface: #141418;
-    --surface2: #1C1C22;
-    --border: #2A2A35;
-    --accent: #6C5CE7;
-    --accent2: #A29BFE;
-    --green: #00D68F;
-    --red: #FF4757;
-    --amber: #FFA502;
-    --text: #F0EFF5;
-    --muted: #6B6A7A;
+    --black: #0d0d0d;
+    --white: #fafaf7;
+    --orange: #ff4d00;
+    --pink: #ff90e8;
+    --sky: #90e0ef;
+    --green: #00d46a;
+    --red: #ff3366;
+    --bg: #f2efe9;
+    --surface: #fafaf7;
+    --surface2: #f2efe9;
+    --border: rgba(13, 13, 13, 0.15);
+    --border-dark: 2px solid #0d0d0d;
+    --shadow: 4px 4px 0 #0d0d0d;
+    --r: 12px;
+    --text: #0d0d0d;
+    --muted: #666;
     --mono: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace;
-    --display: system-ui, -apple-system, sans-serif;
+    --display: Georgia, 'Times New Roman', serif;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,9 +46,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px 10px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
     background: var(--surface);
     flex-shrink: 0;
+    box-shadow: 0 1px 0 rgba(13, 13, 13, 0.06);
   }
 
   .logo {
@@ -55,8 +61,9 @@
   .logo-mark {
     width: 24px;
     height: 24px;
-    background: var(--accent);
-    border-radius: 5px;
+    background: var(--orange);
+    border: var(--border-dark);
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,6 +72,7 @@
     font-size: 13px;
     color: white;
     letter-spacing: -1px;
+    box-shadow: 2px 2px 0 var(--black);
   }
 
   .logo-text {
@@ -76,14 +84,14 @@
   }
 
   .logo-text span {
-    color: var(--accent2);
+    color: var(--orange);
   }
 
   .version-pill {
     font-size: 9px;
     font-family: var(--mono);
-    background: var(--surface2);
-    border: 1px solid var(--border);
+    background: var(--white);
+    border: 1.5px solid var(--border);
     color: var(--muted);
     padding: 2px 7px;
     border-radius: 99px;
@@ -95,7 +103,7 @@
     display: flex;
     gap: 0;
     padding: 0 16px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
     background: var(--surface);
     flex-shrink: 0;
   }
@@ -108,14 +116,15 @@
     cursor: pointer;
     border-bottom: 2px solid transparent;
     transition: all 0.15s;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   .tab:hover { color: var(--text); }
 
   .tab.active {
-    color: var(--accent2);
-    border-bottom-color: var(--accent);
+    color: var(--orange);
+    border-bottom-color: var(--orange);
   }
 
   /* ── Panels ── */
@@ -141,7 +150,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
     flex-shrink: 0;
   }
 
@@ -149,15 +158,16 @@
     font-size: 10px;
     font-family: var(--mono);
     color: var(--muted);
-    letter-spacing: 1px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
   /* ── Textarea ── */
   .code-area {
     flex: 1;
-    background: var(--bg);
-    border: none;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--r);
     outline: none;
     color: var(--text);
     font-family: var(--mono);
@@ -167,11 +177,16 @@
     resize: none;
     overflow-y: auto;
     width: 100%;
+    min-height: 0;
+  }
+
+  .code-area:focus {
+    border-color: var(--orange);
   }
 
   .code-area::placeholder {
     color: var(--muted);
-    opacity: 0.5;
+    opacity: 0.6;
   }
 
   /* ── Actions ── */
@@ -179,7 +194,7 @@
     display: flex;
     gap: 8px;
     padding: 10px 16px;
-    border-top: 1px solid var(--border);
+    border-top: 1.5px solid var(--border);
     background: var(--surface);
     flex-shrink: 0;
   }
@@ -187,14 +202,15 @@
   .btn {
     flex: 1;
     height: 34px;
-    border: none;
-    border-radius: 6px;
+    border: var(--border-dark);
+    border-radius: 999px;
     font-family: var(--mono);
     font-size: 11px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.15s;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,41 +218,55 @@
   }
 
   .btn-ghost {
-    background: var(--surface2);
-    color: var(--muted);
-    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text);
+    border: 1.5px solid var(--border);
   }
 
   .btn-ghost:hover {
-    color: var(--text);
-    border-color: var(--muted);
+    color: var(--orange);
+    border-color: var(--orange);
   }
 
   .btn-primary {
-    background: var(--accent);
-    color: white;
+    background: var(--orange);
+    color: var(--white);
+    border-color: rgba(13, 13, 13, 0.15);
+    box-shadow: 2px 2px 0 var(--black);
   }
 
   .btn-primary:hover {
-    background: #7C6CF7;
+    transform: translateY(-1px);
+    box-shadow: 3px 3px 0 var(--black);
   }
 
   .btn-primary:disabled {
     background: var(--surface2);
     color: var(--muted);
+    border-color: var(--border);
+    box-shadow: none;
     cursor: not-allowed;
   }
 
   .btn-green {
-    background: #00B37B;
-    color: white;
+    background: var(--black);
+    color: var(--white);
     flex: 1.4;
+    border-color: var(--black);
+    box-shadow: 2px 2px 0 var(--black);
   }
 
-  .btn-green:hover { background: #00c98a; }
+  .btn-green:hover {
+    background: var(--orange);
+    border-color: var(--orange);
+    transform: translateY(-1px);
+    box-shadow: 3px 3px 0 var(--black);
+  }
   .btn-green:disabled {
     background: var(--surface2);
     color: var(--muted);
+    border-color: var(--border);
+    box-shadow: none;
     cursor: not-allowed;
   }
 
@@ -247,7 +277,7 @@
     gap: 8px;
     padding: 6px 16px;
     background: var(--surface);
-    border-top: 1px solid var(--border);
+    border-top: 1.5px solid var(--border);
     flex-shrink: 0;
   }
 
@@ -261,9 +291,9 @@
 
   .status-dot.ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
   .status-dot.err { background: var(--red); box-shadow: 0 0 6px var(--red); }
-  .status-dot.warn { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+  .status-dot.warn { background: #ffbd2e; box-shadow: 0 0 6px #ffbd2e; }
   .status-dot.pulse {
-    background: var(--accent2);
+    background: var(--orange);
     animation: pulse 1s infinite;
   }
 
@@ -293,9 +323,11 @@
     font-family: var(--mono);
     font-size: 10.5px;
     line-height: 1.7;
-    color: #A29BFE;
+    color: var(--orange);
     white-space: pre-wrap;
     word-break: break-all;
+  }
+
   }
 
   /* ── Config Panel ── */
@@ -317,10 +349,10 @@
   .config-group-label {
     font-size: 9px;
     color: var(--muted);
-    letter-spacing: 1.5px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     padding-bottom: 4px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
   }
 
   .config-row {
@@ -339,9 +371,9 @@
   .config-input {
     flex: 1;
     height: 28px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 5px;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
     color: var(--text);
     font-family: var(--mono);
     font-size: 11px;
@@ -350,7 +382,7 @@
     transition: border-color 0.15s;
   }
 
-  .config-input:focus { border-color: var(--accent); }
+  .config-input:focus { border-color: var(--orange); }
 
   .color-row {
     display: flex;
@@ -361,8 +393,8 @@
   .color-swatch {
     width: 22px;
     height: 22px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
     cursor: pointer;
     flex-shrink: 0;
   }
@@ -376,24 +408,26 @@
   .preset-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    gap: 8px;
   }
 
   .preset-card {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 7px;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--r);
     padding: 10px 12px;
     cursor: pointer;
     transition: all 0.15s;
     display: flex;
     flex-direction: column;
     gap: 3px;
+    box-shadow: 2px 2px 0 rgba(13, 13, 13, 0.08);
   }
 
   .preset-card:hover {
-    border-color: var(--accent);
-    background: #1A1A28;
+    border-color: var(--orange);
+    background: var(--bg);
+    box-shadow: 3px 3px 0 rgba(13, 13, 13, 0.12);
   }
 
   .preset-name {
@@ -420,7 +454,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
     min-height: 0;
   }
 
@@ -437,28 +471,28 @@
     gap: 5px;
     flex-wrap: wrap;
     padding: 8px 16px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
   }
 
   .chip {
     font-size: 9.5px;
     padding: 2px 8px;
     border-radius: 99px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
+    background: var(--white);
+    border: 1.5px solid var(--border);
     color: var(--muted);
   }
 
   .chip.active {
-    border-color: var(--accent);
-    color: var(--accent2);
-    background: rgba(108, 92, 231, 0.12);
+    border-color: var(--orange);
+    color: var(--orange);
+    background: rgba(255, 77, 0, 0.1);
   }
 
   /* scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb { background: rgba(13, 13, 13, 0.2); border-radius: 3px; }
 </style>
 </head>
 <body>
@@ -630,7 +664,7 @@ let config = {
   padding: 16,
   gap: 12,
   radius: 12,
-  primaryColor: '#4F46E5',
+  primaryColor: '#ff4d00',
   background: '#FFFFFF',
   name: 'Schwep Component',
 };
@@ -1030,7 +1064,7 @@ const PRESETS = [
     desc: 'Badge + title + description + CTA',
     schema: {
       name: 'Hero Card',
-      badge: { label: 'New', backgroundColor: '#EEF2FF', color: '#4F46E5' },
+      badge: { label: 'New', backgroundColor: '#ff90e8', color: '#0d0d0d' },
       title: { text: 'Build Faster with Schwep', fontSize: 22 },
       description: { text: 'A powerful design system that converts your HTML directly into Figma components.', fontSize: 14 },
       button: { label: 'Get Started', fullWidth: true },
@@ -1078,7 +1112,7 @@ const PRESETS = [
         { type: 'input', label: 'Full Name', placeholder: 'Jordan Davis' },
         { type: 'input', label: 'Email', placeholder: 'you@example.com' },
         { type: 'input', label: 'Password', placeholder: '••••••••' },
-        { type: 'button', label: 'Create Account', fullWidth: true, backgroundColor: '#4F46E5' },
+        { type: 'button', label: 'Create Account', fullWidth: true, backgroundColor: '#ff4d00' },
         { type: 'description', text: 'Already have an account? Sign in', fontSize: 12, color: '#6B7280' },
       ],
     },
@@ -1128,7 +1162,7 @@ const PRESETS = [
         ]},
         { type: 'divider' },
         { type: 'list', items: ['Unlimited projects', 'Priority support', 'API access', 'Team workspaces'] },
-        { type: 'button', label: 'Upgrade to Pro', fullWidth: true, backgroundColor: '#4F46E5' },
+        { type: 'button', label: 'Upgrade to Pro', fullWidth: true, backgroundColor: '#ff4d00' },
       ],
     },
   },
@@ -1155,7 +1189,7 @@ PRESETS.forEach((preset, i) => {
   card.innerHTML = `<div class="preset-name">${preset.name}</div><div class="preset-desc">${preset.desc}</div>`;
   card.addEventListener('click', () => {
     document.querySelectorAll('.preset-card').forEach(c => c.style.borderColor = '');
-    card.style.borderColor = 'var(--accent)';
+    card.style.borderColor = 'var(--orange)';
     selectedPreset = preset.schema;
     renderPresetBtn.disabled = false;
     setStatus('Selected: ' + preset.name, 'ok');
@@ -1176,7 +1210,7 @@ function getConfig() {
     padding: parseInt(document.getElementById('cfg-padding').value) || 16,
     gap: parseInt(document.getElementById('cfg-gap').value) || 12,
     radius: parseInt(document.getElementById('cfg-radius').value) || 12,
-    primaryColor: document.getElementById('cfg-primary').value || '#4F46E5',
+    primaryColor: document.getElementById('cfg-primary').value || '#ff4d00',
     background: document.getElementById('cfg-bg').value || '#FFFFFF',
     name: document.getElementById('cfg-name').value || 'Schwep Component',
   };
