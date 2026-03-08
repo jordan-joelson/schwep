@@ -5,11 +5,6 @@ body {
   background: var(--white);
   font-size: 17px;
   overflow-x: hidden;
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M8 0 L8 6 M8 10 L8 16 M0 8 L6 8 M10 8 L16 8' stroke='%230D0D0D' stroke-width='1.2'/%3E%3Ccircle cx='8' cy='8' r='1.5' fill='%230D0D0D'/%3E%3C/svg%3E") 8 8, crosshair;
-}
-
-a, button, [role='button'], input[type='button'], input[type='submit'], .nav-logo, .nav-cta {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M2 2 L14 14 M14 2 L2 14' stroke='%230D0D0D' stroke-width='1.2'/%3E%3Ccircle cx='8' cy='8' r='1.5' fill='%230D0D0D'/%3E%3C/svg%3E") 8 8, pointer;
 }
 
 /* ─────────────────────────────
@@ -193,33 +188,47 @@ a, button, [role='button'], input[type='button'], input[type='submit'], .nav-log
 .marquee-strip {
   border-bottom: var(--border);
   background: var(--orange);
-  padding: 14px 0;
+  padding: 18px 0;
   overflow: hidden;
   white-space: nowrap;
+  position: relative;
+}
+
+.marquee-wrapper {
+  display: flex;
+  width: fit-content;
 }
 
 .marquee-inner {
-  display: inline-block;
-  animation: marquee 22s linear infinite;
+  display: inline-flex;
+  align-items: center;
+  animation: marquee 20s linear infinite;
+  will-change: transform;
+  flex-shrink: 0;
 }
 
 .marquee-inner span {
   font-weight: 900;
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
+  font-size: 1rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: white;
-  padding: 0 40px;
+  padding: 0 48px;
+  white-space: nowrap;
+  text-shadow: 2px 2px 0 rgba(13, 13, 13, 0.15);
+  flex-shrink: 0;
 }
 
 .marquee-inner span.dot {
-  opacity: 0.4;
-  padding: 0;
+  opacity: 0.5;
+  padding: 0 20px;
+  font-size: 1.2rem;
+  flex-shrink: 0;
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* ─────────────────────────────

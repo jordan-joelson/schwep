@@ -10,10 +10,8 @@
 </head>
 <body>
   <!-- Loading Screen -->
-  <div class="loader" id="loader">
-    <div class="loader-content">
-      <img src="assets/images/schwep.png" alt="schwep" style="height: 60px; width: auto; opacity: 0.9;">
-    </div>
+  <div class="loading-screen" id="loading-screen">
+    <img src="assets/images/schwep.png" alt="Schwep Logo" class="loading-logo">
   </div>
 
   <div class="flash" id="flash"></div>
@@ -38,13 +36,16 @@
       </div>
       <img class="track-blimp" src="assets/images/MARTYBLIMP.png" alt="Blimp" id="blimp">
     </div>
-    <div class="hud-label">Round <b id="round-num">1</b></div>
+    <div class="hud-label">
+      Round <b id="round-num">1</b>
+      <span class="skip-count" id="skip-count" style="margin-left: 16px; opacity: 0.6; font-size: 0.5rem;">Skips: <b id="skip-remaining">1</b></span>
+    </div>
   </div>
 
   <!-- STAGE -->
   <div class="stage">
     <div class="rhead">
-      <div class="rhead-eye" id="round-label">Round 01 · The Frame</div>
+      <div class="rhead-eye" id="round-label">Round 01</div>
       <h1 class="rhead-title" id="round-title">Bento Grid</h1>
     </div>
 
@@ -53,13 +54,15 @@
       <div class="ghost ghost-2"></div>
       <div class="ghost ghost-1"></div>
       <div class="scard" id="card">
-        <div class="ind ind-like">LIKE</div>
-        <div class="ind ind-nope">NOPE</div>
         <div class="scard-vis" id="card-vis">
           <!-- Preview content will be injected here -->
         </div>
         <div class="scard-body">
-          <div class="scard-name" id="card-name">Bento Grid</div>
+          <div class="scard-name-wrapper">
+            <div class="scard-name" id="card-name">Bento Grid</div>
+            <div class="ind ind-like">LIKE</div>
+            <div class="ind ind-nope">NOPE</div>
+          </div>
           <div class="scard-desc" id="card-desc">A modular grid system with varied card sizes creating visual hierarchy.</div>
           <div class="scard-hint">Swipe or click buttons</div>
         </div>
@@ -71,6 +74,10 @@
       <div class="sb-wrapper">
         <button class="sb sb-nope" id="btn-nope">✕</button>
         <div class="sb-lbl">Nope</div>
+      </div>
+      <div class="sb-wrapper">
+        <button class="sb sb-skip" id="btn-skip">⊘</button>
+        <div class="sb-lbl">Skip</div>
       </div>
       <div class="sb-wrapper">
         <button class="sb sb-like" id="btn-like">✓</button>

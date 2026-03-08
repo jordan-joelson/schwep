@@ -47,6 +47,7 @@ const ROUNDS = [
 
 let currentRound = 0;
 let currentCardIndex = 0;
+let cardsLikedInRound = 0; // Track cards actually liked (not noped/skipped)
 let results = { frame: '', shape: '', tone: '', finish: '' };
 let isDragging = false;
 let startX = 0;
@@ -56,33 +57,38 @@ let currentY = 0;
 let card = null;
 let radiusValue = 12;
 
+// Skip counts per round: Round 1 = 1 skip, Rounds 2-4 = 3 skips each
+const SKIP_LIMITS = [1, 3, 3, 3];
+let skipsUsed = [0, 0, 0, 0]; // Track skips used per round
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-  // Hide loader after a short delay
+  showLoadingScreen();
   setTimeout(() => {
-    const loader = document.getElementById('loader');
-    if (loader) {
-      loader.classList.add('hidden');
-      setTimeout(() => {
-        loader.style.display = 'none';
-      }, 500);
-    }
-  }, 800);
-  
+    hideLoadingScreen();
   card = document.getElementById('card');
   setupCard();
   setupSwipeHandlers();
   setupButtons();
   setupShapeOverlay();
-  updateRoundDisplay();
+  updateRoundDisplay(); // This will also update skip display
   // Initialize blimp position
   updateBlimpProgress();
+  }, 800); // Show loading screen for 800ms
   
   // Recalculate blimp position on window resize
   window.addEventListener('resize', () => {
     updateBlimpProgress();
   });
 });
+
+function showLoadingScreen() {
+  document.getElementById('loading-screen').classList.remove('hidden');
+}
+
+function hideLoadingScreen() {
+  document.getElementById('loading-screen').classList.add('hidden');
+}
 
 function setupCard() {
   const round = ROUNDS[currentRound];
@@ -121,83 +127,88 @@ function generatePreview(type) {
   const previews = {
     bento: `
       <div class="pv-bento">
-        <div style="background: linear-gradient(135deg, rgba(255,77,0,0.15) 0%, rgba(255,144,232,0.1) 100%); border: 1px solid rgba(13,13,13,0.1);">
-          <div style="width: 60%; height: 20px; background: rgba(13,13,13,0.3); border-radius: 3px; margin: 12px;"></div>
-          <div style="width: 40%; height: 12px; background: rgba(13,13,13,0.2); border-radius: 2px; margin: 8px 12px;"></div>
+        <div style="background: linear-gradient(135deg, rgba(255,77,0,0.12) 0%, rgba(255,144,232,0.08) 100%); border: 1.5px solid rgba(13,13,13,0.12); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end;">
+          <div style="width: 65%; height: 22px; background: rgba(13,13,13,0.35); border-radius: 4px; margin-bottom: 10px; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(13,13,13,0.7); font-weight: 700;">Heading</div>
+          <div style="width: 45%; height: 14px; background: rgba(13,13,13,0.2); border-radius: 3px; margin-bottom: 8px;"></div>
+          <div style="width: 55%; height: 10px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div>
         </div>
-        <div style="background: rgba(13,13,13,0.08); border: 1px solid rgba(13,13,13,0.08);">
-          <div style="width: 70%; height: 14px; background: rgba(13,13,13,0.25); border-radius: 2px; margin: 10px auto;"></div>
+        <div style="background: rgba(255,255,255,0.6); border: 1.5px solid rgba(13,13,13,0.1); border-radius: 8px; padding: 12px; display: flex; align-items: center; justify-content: center;">
+          <div style="width: 32px; height: 32px; background: rgba(13,13,13,0.3); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">✦</div>
         </div>
-        <div style="background: rgba(13,13,13,0.08); border: 1px solid rgba(13,13,13,0.08);">
-          <div style="width: 50%; height: 10px; background: rgba(13,13,13,0.2); border-radius: 2px; margin: 8px auto;"></div>
+        <div style="background: rgba(255,255,255,0.6); border: 1.5px solid rgba(13,13,13,0.1); border-radius: 8px; padding: 10px;">
+          <div style="width: 75%; height: 8px; background: rgba(13,13,13,0.25); border-radius: 2px; margin-bottom: 6px;"></div>
+          <div style="width: 50%; height: 6px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
         </div>
-        <div style="background: rgba(255,77,0,0.1); border: 1px solid rgba(255,77,0,0.2);">
-          <div style="width: 80%; height: 12px; background: rgba(255,77,0,0.4); border-radius: 2px; margin: 10px auto;"></div>
+        <div style="background: rgba(255,77,0,0.12); border: 1.5px solid rgba(255,77,0,0.25); border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center;">
+          <div style="width: 70%; height: 14px; background: rgba(255,77,0,0.5); border-radius: 4px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; color: rgba(13,13,13,0.8); font-weight: 700;">Button</div>
         </div>
       </div>
     `,
     split: `
       <div class="pv-split">
-        <div class="sl" style="background: linear-gradient(135deg, rgba(255,77,0,0.2) 0%, rgba(255,77,0,0.05) 100%); border: 1px solid rgba(255,77,0,0.3); display: flex; flex-direction: column; justify-content: center; padding: 16px;">
-          <div style="width: 80%; height: 24px; background: rgba(13,13,13,0.4); border-radius: 4px; margin-bottom: 12px;"></div>
-          <div style="width: 60%; height: 16px; background: rgba(13,13,13,0.3); border-radius: 3px; margin-bottom: 8px;"></div>
-          <div style="width: 70%; height: 14px; background: rgba(13,13,13,0.25); border-radius: 2px;"></div>
+        <div class="sl" style="background: linear-gradient(135deg, rgba(255,77,0,0.15) 0%, rgba(255,77,0,0.05) 100%); border: 1.5px solid rgba(255,77,0,0.25); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; padding: 18px;">
+          <div style="width: 85%; height: 26px; background: rgba(13,13,13,0.4); border-radius: 5px; margin-bottom: 14px; font-size: 0.75rem; display: flex; align-items: center; padding: 0 10px; color: rgba(255,255,255,0.9); font-weight: 700;">Title Text</div>
+          <div style="width: 65%; height: 18px; background: rgba(13,13,13,0.3); border-radius: 4px; margin-bottom: 10px;"></div>
+          <div style="width: 75%; height: 16px; background: rgba(13,13,13,0.25); border-radius: 3px; margin-bottom: 12px;"></div>
+          <div style="width: 55%; height: 14px; background: rgba(255,77,0,0.4); border-radius: 4px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; color: rgba(13,13,13,0.8); font-weight: 700; padding: 4px 0;">Action</div>
         </div>
         <div class="sr">
-          <div style="background: rgba(13,13,13,0.1); border: 1px solid rgba(13,13,13,0.1); padding: 12px;">
-            <div style="width: 90%; height: 12px; background: rgba(13,13,13,0.3); border-radius: 2px; margin-bottom: 8px;"></div>
-            <div style="width: 75%; height: 10px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+          <div style="background: rgba(255,255,255,0.6); border: 1.5px solid rgba(13,13,13,0.12); border-radius: 8px; padding: 14px;">
+            <div style="width: 92%; height: 14px; background: rgba(13,13,13,0.3); border-radius: 3px; margin-bottom: 10px;"></div>
+            <div style="width: 78%; height: 12px; background: rgba(13,13,13,0.25); border-radius: 2px; margin-bottom: 8px;"></div>
+            <div style="width: 85%; height: 10px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
           </div>
-          <div style="background: rgba(13,13,13,0.08); border: 1px solid rgba(13,13,13,0.08); padding: 12px;">
-            <div style="width: 85%; height: 10px; background: rgba(13,13,13,0.25); border-radius: 2px; margin-bottom: 6px;"></div>
-            <div style="width: 65%; height: 8px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+          <div style="background: rgba(255,255,255,0.5); border: 1.5px solid rgba(13,13,13,0.1); border-radius: 8px; padding: 14px;">
+            <div style="width: 88%; height: 12px; background: rgba(13,13,13,0.28); border-radius: 3px; margin-bottom: 8px;"></div>
+            <div style="width: 68%; height: 10px; background: rgba(13,13,13,0.22); border-radius: 2px;"></div>
           </div>
         </div>
       </div>
     `,
     swiss: `
-      <div class="pv-swiss">
-        <div style="width: 100%; height: 8px; background: rgba(13,13,13,0.4); border-radius: 4px;"></div>
-        <div style="width: 55%; height: 8px; background: var(--orange); border-radius: 4px;"></div>
-        <div style="width: 100%; height: 6px; background: rgba(13,13,13,0.3); border-radius: 3px;"></div>
-        <div style="width: 70%; height: 6px; background: rgba(13,13,13,0.35); border-radius: 3px;"></div>
-        <div style="width: 38%; height: 6px; background: rgba(13,13,13,0.25); border-radius: 3px;"></div>
-        <div style="width: 100%; height: 4px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+      <div class="pv-swiss" style="padding: 20px; background: rgba(255,255,255,0.5); border: 1.5px solid rgba(13,13,13,0.1); border-radius: 8px;">
+        <div style="width: 100%; height: 10px; background: rgba(13,13,13,0.4); border-radius: 5px; margin-bottom: 12px;"></div>
+        <div style="width: 55%; height: 10px; background: var(--orange); border-radius: 5px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(255,77,0,0.2);"></div>
+        <div style="width: 100%; height: 8px; background: rgba(13,13,13,0.3); border-radius: 4px; margin-bottom: 10px;"></div>
+        <div style="width: 70%; height: 8px; background: rgba(13,13,13,0.35); border-radius: 4px; margin-bottom: 10px;"></div>
+        <div style="width: 38%; height: 8px; background: rgba(13,13,13,0.25); border-radius: 4px; margin-bottom: 10px;"></div>
+        <div style="width: 100%; height: 6px; background: rgba(13,13,13,0.2); border-radius: 3px;"></div>
       </div>
     `,
     editorial: `
       <div class="pv-editorial">
-        <div class="pe1" style="background: rgba(13,13,13,0.85); display: flex; align-items: center; padding: 0 16px;">
-          <div style="width: 40%; height: 20px; background: rgba(255,255,255,0.3); border-radius: 3px;"></div>
+        <div class="pe1" style="background: rgba(13,13,13,0.9); border-radius: 6px; display: flex; align-items: center; padding: 0 18px; box-shadow: 0 2px 8px rgba(13,13,13,0.2);">
+          <div style="width: 42%; height: 22px; background: rgba(255,255,255,0.35); border-radius: 4px; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(255,255,255,0.95); font-weight: 700;">BRAND</div>
         </div>
-        <div class="pe2" style="background: var(--orange);"></div>
-        <div class="pe3" style="background: rgba(13,13,13,0.05); padding: 16px; display: flex; flex-direction: column; gap: 8px;">
-          <div style="width: 100%; height: 10px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div>
-          <div style="width: 95%; height: 10px; background: rgba(13,13,13,0.12); border-radius: 2px;"></div>
-          <div style="width: 90%; height: 10px; background: rgba(13,13,13,0.1); border-radius: 2px;"></div>
+        <div class="pe2" style="background: var(--orange); border-radius: 3px; box-shadow: 0 1px 4px rgba(255,77,0,0.3);"></div>
+        <div class="pe3" style="background: rgba(255,255,255,0.6); border: 1.5px solid rgba(13,13,13,0.1); border-radius: 6px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="width: 100%; height: 12px; background: rgba(13,13,13,0.18); border-radius: 3px;"></div>
+          <div style="width: 96%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 3px;"></div>
+          <div style="width: 92%; height: 12px; background: rgba(13,13,13,0.12); border-radius: 3px;"></div>
+          <div style="width: 88%; height: 10px; background: rgba(13,13,13,0.1); border-radius: 2px;"></div>
         </div>
       </div>
     `,
-    sharp: `<div class="pv-clean" style="border-radius: 0; background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.15); padding: 20px; display: flex; flex-direction: column; gap: 12px;"><div style="width: 100%; height: 16px; background: rgba(13,13,13,0.2); border-radius: 0;"></div><div style="width: 80%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 0;"></div><div style="width: 60%; height: 10px; background: rgba(13,13,13,0.1); border-radius: 0;"></div></div>`,
-    soft: `<div class="pv-clean" style="border-radius: 8px; background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.15); padding: 20px; display: flex; flex-direction: column; gap: 12px;"><div style="width: 100%; height: 16px; background: rgba(13,13,13,0.2); border-radius: 4px;"></div><div style="width: 80%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 4px;"></div><div style="width: 60%; height: 10px; background: rgba(13,13,13,0.1); border-radius: 4px;"></div></div>`,
-    round: `<div class="pv-clean" style="border-radius: 12px; background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.15); padding: 20px; display: flex; flex-direction: column; gap: 12px;"><div style="width: 100%; height: 16px; background: rgba(13,13,13,0.2); border-radius: 6px;"></div><div style="width: 80%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 6px;"></div><div style="width: 60%; height: 10px; background: rgba(13,13,13,0.1); border-radius: 6px;"></div></div>`,
-    pill: `<div class="pv-clean" style="border-radius: 24px; background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.15); padding: 20px; display: flex; flex-direction: column; gap: 12px;"><div style="width: 100%; height: 16px; background: rgba(13,13,13,0.2); border-radius: 12px;"></div><div style="width: 80%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 12px;"></div><div style="width: 60%; height: 10px; background: rgba(13,13,13,0.1); border-radius: 12px;"></div></div>`,
-    boldtech: `<div class="pv-boldtech" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(13,13,13,0.05); border-radius: 8px; padding: 20px;">BOLD</div>`,
-    edmod: `<div class="pv-edmod" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(255,255,255,0.6); border-radius: 8px; padding: 20px; border: 1px solid rgba(13,13,13,0.1);">Elegant</div>`,
-    rawmono: `<div class="pv-rawmono" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(13,13,13,0.9); color: rgba(255,255,255,0.9); border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace;">MONO<br>SPACE</div>`,
-    hand: `<div class="pv-hand" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(255,77,0,0.08); border-radius: 8px; padding: 20px;">hand</div>`,
-    grain: `<div class="pv-grain" style="background: rgba(255,255,255,0.9); position: relative; overflow: hidden;"><div style="position: absolute; inset: 0; background: repeating-linear-gradient(45deg, rgba(13,13,13,0.03) 0, rgba(13,13,13,0.03) 1px, transparent 1px, transparent 8px);"></div><div style="position: relative; z-index: 1; padding: 20px; display: flex; flex-direction: column; gap: 10px; height: 100%;"><div style="width: 70%; height: 14px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div><div style="width: 85%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div></div></div>`,
-    clean: `<div class="pv-clean" style="background: rgba(255,255,255,0.98); border: 1px solid rgba(13,13,13,0.08); padding: 20px; display: flex; flex-direction: column; gap: 12px;"><div style="width: 100%; height: 16px; background: rgba(13,13,13,0.15); border-radius: 4px;"></div><div style="width: 85%; height: 12px; background: rgba(13,13,13,0.12); border-radius: 3px;"></div><div style="width: 70%; height: 10px; background: rgba(13,13,13,0.1); border-radius: 2px;"></div></div>`,
+    sharp: `<div class="pv-clean" style="border-radius: 0; background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.18); padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 4px 12px rgba(13,13,13,0.08);"><div style="width: 100%; height: 18px; background: rgba(13,13,13,0.25); border-radius: 0; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(13,13,13,0.7); font-weight: 700;">Card Title</div><div style="width: 82%; height: 14px; background: rgba(13,13,13,0.18); border-radius: 0;"></div><div style="width: 65%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 0;"></div><div style="width: 50%; height: 14px; background: rgba(255,77,0,0.3); border-radius: 0; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; color: rgba(13,13,13,0.8); font-weight: 700;">Action</div></div>`,
+    soft: `<div class="pv-clean" style="border-radius: 8px; background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.18); padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 4px 12px rgba(13,13,13,0.08);"><div style="width: 100%; height: 18px; background: rgba(13,13,13,0.25); border-radius: 4px; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(13,13,13,0.7); font-weight: 700;">Card Title</div><div style="width: 82%; height: 14px; background: rgba(13,13,13,0.18); border-radius: 4px;"></div><div style="width: 65%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 4px;"></div><div style="width: 50%; height: 14px; background: rgba(255,77,0,0.3); border-radius: 4px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; color: rgba(13,13,13,0.8); font-weight: 700;">Action</div></div>`,
+    round: `<div class="pv-clean" style="border-radius: 12px; background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.18); padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 4px 12px rgba(13,13,13,0.08);"><div style="width: 100%; height: 18px; background: rgba(13,13,13,0.25); border-radius: 6px; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(13,13,13,0.7); font-weight: 700;">Card Title</div><div style="width: 82%; height: 14px; background: rgba(13,13,13,0.18); border-radius: 6px;"></div><div style="width: 65%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 6px;"></div><div style="width: 50%; height: 14px; background: rgba(255,77,0,0.3); border-radius: 6px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; color: rgba(13,13,13,0.8); font-weight: 700;">Action</div></div>`,
+    pill: `<div class="pv-clean" style="border-radius: 24px; background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.18); padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 4px 12px rgba(13,13,13,0.08);"><div style="width: 100%; height: 18px; background: rgba(13,13,13,0.25); border-radius: 12px; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(13,13,13,0.7); font-weight: 700;">Card Title</div><div style="width: 82%; height: 14px; background: rgba(13,13,13,0.18); border-radius: 12px;"></div><div style="width: 65%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 12px;"></div><div style="width: 50%; height: 14px; background: rgba(255,77,0,0.3); border-radius: 12px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; color: rgba(13,13,13,0.8); font-weight: 700;">Action</div></div>`,
+    boldtech: `<div class="pv-boldtech" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(255,255,255,0.7); border: 2px solid rgba(13,13,13,0.15); border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(13,13,13,0.1); font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(13,13,13,0.9);">BOLD</div>`,
+    edmod: `<div class="pv-edmod" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(255,255,255,0.75); border: 1.5px solid rgba(13,13,13,0.12); border-radius: 8px; padding: 20px; box-shadow: 0 3px 10px rgba(13,13,13,0.08); font-style: italic; color: rgba(13,13,13,0.85);">Elegant</div>`,
+    rawmono: `<div class="pv-rawmono" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(13,13,13,0.95); color: rgba(255,255,255,0.95); border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(13,13,13,0.3); font-family: 'DM Mono', 'Courier New', monospace; font-weight: 500; letter-spacing: 0.05em; line-height: 1.6;">MONO<br>SPACE</div>`,
+    hand: `<div class="pv-hand" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(255,77,0,0.1); border: 2px solid rgba(255,77,0,0.25); border-radius: 8px; padding: 20px; box-shadow: 0 3px 10px rgba(255,77,0,0.15); font-style: italic; color: var(--orange); transform: rotate(-2deg);">hand</div>`,
+    grain: `<div class="pv-grain" style="background: rgba(255,255,255,0.95); border: 1.5px solid rgba(13,13,13,0.12); border-radius: 8px; position: relative; overflow: hidden; box-shadow: 0 4px 12px rgba(13,13,13,0.08);"><div style="position: absolute; inset: 0; background: repeating-linear-gradient(45deg, rgba(13,13,13,0.04) 0, rgba(13,13,13,0.04) 1px, transparent 1px, transparent 8px); pointer-events: none;"></div><div style="position: relative; z-index: 1; padding: 22px; display: flex; flex-direction: column; gap: 12px; height: 100%;"><div style="width: 72%; height: 16px; background: rgba(13,13,13,0.25); border-radius: 4px; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(13,13,13,0.7); font-weight: 700;">Content</div><div style="width: 88%; height: 14px; background: rgba(13,13,13,0.18); border-radius: 3px;"></div><div style="width: 65%; height: 12px; background: rgba(13,13,13,0.15); border-radius: 3px;"></div></div></div>`,
+    clean: `<div class="pv-clean" style="background: rgba(255,255,255,0.98); border: 2px solid rgba(13,13,13,0.12); border-radius: 8px; padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 4px 12px rgba(13,13,13,0.06);"><div style="width: 100%; height: 18px; background: rgba(13,13,13,0.2); border-radius: 4px; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(13,13,13,0.7); font-weight: 700;">Clean Title</div><div style="width: 88%; height: 14px; background: rgba(13,13,13,0.15); border-radius: 3px;"></div><div style="width: 72%; height: 12px; background: rgba(13,13,13,0.12); border-radius: 3px;"></div><div style="width: 55%; height: 14px; background: rgba(255,77,0,0.25); border-radius: 4px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; color: rgba(13,13,13,0.8); font-weight: 700;">Button</div></div>`,
     gritty: `
-      <div class="pv-gritty" style="background: rgba(13,13,13,0.95); padding: 20px;">
-        <div style="width: 80%; height: 4px; background: rgba(255,255,255,0.4); border-radius: 2px; margin-bottom: 8px;"></div>
-        <div style="width: 100%; height: 3px; background: rgba(255,255,255,0.3); border-radius: 2px; margin-bottom: 8px;"></div>
-        <div style="width: 60%; height: 4px; background: rgba(255,255,255,0.35); border-radius: 2px; margin-bottom: 8px;"></div>
-        <div style="width: 90%; height: 3px; background: rgba(255,255,255,0.25); border-radius: 2px; margin-bottom: 8px;"></div>
-        <div style="width: 75%; height: 3px; background: rgba(255,255,255,0.3); border-radius: 2px;"></div>
+      <div class="pv-gritty" style="background: rgba(13,13,13,0.98); border: 2px solid rgba(255,77,0,0.3); border-radius: 8px; padding: 22px; box-shadow: 0 4px 16px rgba(13,13,13,0.4), inset 0 1px 0 rgba(255,255,255,0.05);">
+        <div style="width: 82%; height: 5px; background: rgba(255,255,255,0.45); border-radius: 3px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>
+        <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.35); border-radius: 2px; margin-bottom: 10px;"></div>
+        <div style="width: 65%; height: 5px; background: rgba(255,255,255,0.4); border-radius: 3px; margin-bottom: 10px;"></div>
+        <div style="width: 92%; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; margin-bottom: 10px;"></div>
+        <div style="width: 78%; height: 4px; background: rgba(255,255,255,0.35); border-radius: 2px;"></div>
       </div>
     `,
-    neon: `<div class="pv-neon" style="background: rgba(4,4,20,0.95); border: 1px solid rgba(61,255,208,0.3); box-shadow: 0 0 20px rgba(61,255,208,0.2), inset 0 0 20px rgba(61,255,208,0.1);">NEON</div>`
+    neon: `<div class="pv-neon" style="background: rgba(4,4,20,0.98); border: 2px solid rgba(61,255,208,0.4); border-radius: 8px; box-shadow: 0 0 24px rgba(61,255,208,0.3), inset 0 0 24px rgba(61,255,208,0.15), 0 4px 16px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; font-weight: 900; letter-spacing: 0.2em; text-shadow: 0 0 16px #3DFFD0, 0 0 36px #3DFFD0, 0 0 56px rgba(61,255,208,0.5);">NEON</div>`
   };
   return previews[type] || '<div class="pv-clean"><div></div></div>';
 }
@@ -266,11 +277,14 @@ function endDrag() {
   card.classList.remove('is-dragging');
   
   const threshold = 100;
-  if (Math.abs(currentX) > threshold) {
-    if (currentX > 0) {
-      handleLike();
+  const finalX = currentX; // Store the final position before resetting
+  const finalY = currentY;
+  
+  if (Math.abs(finalX) > threshold) {
+    if (finalX > 0) {
+      handleLike(finalX, finalY);
     } else {
-      handleNope();
+      handleNope(finalX, finalY);
     }
   } else {
     snapBack();
@@ -291,16 +305,61 @@ function snapBack() {
   }, 420);
 }
 
-function handleLike() {
+function handleLike(finalX, finalY) {
+  // Hide indicators immediately to prevent glitch
+  const likeInd = document.querySelector('.ind-like');
+  const nopeInd = document.querySelector('.ind-nope');
+  if (likeInd) likeInd.style.opacity = '0';
+  if (nopeInd) nopeInd.style.opacity = '0';
+  
+  // Throw card off screen to the right
+  card.classList.add('throwing');
+  const throwDistance = window.innerWidth + 300;
+  const throwRotation = 45;
+  card.style.transform = `translate(${throwDistance}px, ${finalY}px) rotate(${throwRotation}deg)`;
+  card.style.opacity = '0';
+  
+  // Reset drag state
+  currentX = 0;
+  currentY = 0;
+  
+  // Increment cards liked counter (only when actually liked)
+  cardsLikedInRound++;
+  
   flash('green');
   saveResult();
   updateBlimpProgress(); // Update blimp position when card is liked
-  nextCard();
+  
+  // Wait for throw animation to complete before loading next card
+  setTimeout(() => {
+    nextCard();
+  }, 380);
 }
 
-function handleNope() {
+function handleNope(finalX, finalY) {
+  // Hide indicators immediately to prevent glitch
+  const likeInd = document.querySelector('.ind-like');
+  const nopeInd = document.querySelector('.ind-nope');
+  if (likeInd) likeInd.style.opacity = '0';
+  if (nopeInd) nopeInd.style.opacity = '0';
+  
+  // Throw card off screen to the left
+  card.classList.add('throwing');
+  const throwDistance = -(window.innerWidth + 300);
+  const throwRotation = -45;
+  card.style.transform = `translate(${throwDistance}px, ${finalY}px) rotate(${throwRotation}deg)`;
+  card.style.opacity = '0';
+  
+  // Reset drag state
+  currentX = 0;
+  currentY = 0;
+  
   flash('red');
-  nextCard();
+  
+  // Wait for throw animation to complete before loading next card
+  setTimeout(() => {
+    nextCard();
+  }, 380);
 }
 
 function flash(color = 'orange') {
@@ -340,6 +399,12 @@ function nextCard() {
     // Round complete - blimp should be at the exact node
     currentRound++;
     currentCardIndex = 0;
+    cardsLikedInRound = 0; // Reset liked cards counter for new round
+    
+    // Reset skips for new round (skips don't carry over)
+    if (currentRound < ROUNDS.length) {
+      skipsUsed[currentRound] = 0;
+    }
     
     // Update blimp to exact node position after round increment
     updateBlimpProgress();
@@ -351,10 +416,8 @@ function nextCard() {
     }
     
     updateRoundDisplay();
-  } else {
-    // Update blimp progress during round
-    updateBlimpProgress();
   }
+  // Don't update blimp progress here - only update when card is actually liked
   
   setTimeout(() => {
     setupCard();
@@ -379,15 +442,15 @@ function updateBlimpProgress() {
   // Base progress from completed rounds (0%, 25%, 50%, 75%)
   const baseProgress = (currentRound / totalRounds) * 100;
   
-  // Progress within current round (based on cards liked)
+  // Progress within current round (based on cards actually liked, not just index)
   let roundProgress = 0;
   if (currentRound < totalRounds) {
     const round = ROUNDS[currentRound];
     const totalCards = round.cards.length;
     
-    if (currentCardIndex > 0 && currentCardIndex <= totalCards) {
-      // Cards liked so far in this round
-      const cardsLiked = currentCardIndex;
+    if (cardsLikedInRound > 0 && cardsLikedInRound <= totalCards) {
+      // Cards actually liked so far in this round
+      const cardsLiked = cardsLikedInRound;
       
       // First card liked = 1/3 of segment, then continue proportionally
       if (cardsLiked === 1) {
@@ -423,7 +486,7 @@ function updateBlimpProgress() {
     if (i < currentRound) {
       // Completed rounds are lit
       stop.classList.add('lit');
-    } else if (i === currentRound && currentCardIndex > 0) {
+    } else if (i === currentRound && cardsLikedInRound > 0) {
       // Light up current stop if we've liked at least one card
       stop.classList.add('lit');
     } else {
@@ -434,15 +497,87 @@ function updateBlimpProgress() {
 
 function updateRoundDisplay() {
   const round = ROUNDS[currentRound];
-  document.getElementById('round-label').textContent = round.label;
+  document.getElementById('round-label').textContent = `Round ${String(currentRound + 1).padStart(2, '0')}`;
   document.getElementById('round-title').textContent = round.title;
   document.getElementById('round-num').textContent = currentRound + 1;
+  updateSkipDisplay();
   updateBlimp();
 }
 
+function updateSkipDisplay() {
+  const skipLimit = SKIP_LIMITS[currentRound];
+  const skipsRemaining = skipLimit - skipsUsed[currentRound];
+  const skipCountEl = document.getElementById('skip-count');
+  const skipRemainingEl = document.getElementById('skip-remaining');
+  const skipBtn = document.getElementById('btn-skip');
+  
+  if (skipRemainingEl) {
+    skipRemainingEl.textContent = skipsRemaining;
+  }
+  
+  if (skipCountEl) {
+    skipCountEl.style.opacity = skipsRemaining > 0 ? '0.6' : '0.3';
+  }
+  
+  if (skipBtn) {
+    skipBtn.disabled = skipsRemaining <= 0;
+    skipBtn.style.opacity = skipsRemaining > 0 ? '1' : '0.4';
+    skipBtn.style.cursor = skipsRemaining > 0 ? 'pointer' : 'not-allowed';
+  }
+}
+
+function handleSkip() {
+  const skipLimit = SKIP_LIMITS[currentRound];
+  const skipsRemaining = skipLimit - skipsUsed[currentRound];
+  
+  if (skipsRemaining <= 0) {
+    return; // No skips left
+  }
+  
+  // Increment skip count for current round
+  skipsUsed[currentRound]++;
+  
+  // Hide indicators
+  const likeInd = document.querySelector('.ind-like');
+  const nopeInd = document.querySelector('.ind-nope');
+  if (likeInd) likeInd.style.opacity = '0';
+  if (nopeInd) nopeInd.style.opacity = '0';
+  
+  // Animate card fade out (no throw, just fade)
+  card.classList.add('throwing');
+  card.style.opacity = '0';
+  card.style.transform = 'translate(0, 0) rotate(0deg)';
+  
+  // Reset drag state
+  currentX = 0;
+  currentY = 0;
+  isDragging = false;
+  
+  // Update skip display
+  updateSkipDisplay();
+  
+  // Move to next card without saving result
+  setTimeout(() => {
+    nextCard();
+  }, 300);
+}
+
 function setupButtons() {
-  document.getElementById('btn-like').addEventListener('click', handleLike);
-  document.getElementById('btn-nope').addEventListener('click', handleNope);
+  document.getElementById('btn-like').addEventListener('click', () => {
+    if (!isDragging && !card.classList.contains('throwing') && !card.classList.contains('snapping')) {
+      handleLike(0, 0);
+    }
+  });
+  document.getElementById('btn-nope').addEventListener('click', () => {
+    if (!isDragging && !card.classList.contains('throwing') && !card.classList.contains('snapping')) {
+      handleNope(0, 0);
+    }
+  });
+  document.getElementById('btn-skip').addEventListener('click', () => {
+    if (!isDragging && !card.classList.contains('throwing') && !card.classList.contains('snapping')) {
+      handleSkip();
+    }
+  });
   document.getElementById('btn-copy').addEventListener('click', copyDNA);
   document.getElementById('btn-again').addEventListener('click', reset);
 }
@@ -502,8 +637,10 @@ function copyDNA() {
 function reset() {
   currentRound = 0;
   currentCardIndex = 0;
+  cardsLikedInRound = 0; // Reset liked cards counter
   results = { frame: '', shape: '', tone: '', finish: '' };
   radiusValue = 12;
+  skipsUsed = [0, 0, 0, 0]; // Reset all skips
   
   document.getElementById('finale').classList.remove('on');
   document.getElementById('radius-slider').value = 12;
