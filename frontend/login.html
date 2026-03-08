@@ -23,14 +23,14 @@
 
 <div class="card">
   <div class="logo">
-    <div class="logo-text">sch<span>w</span>ep</div>
+    <div class="logo-text"><img src="assets/images/schwep.png" alt="schwep"></div>
     <div class="logo-tag">Sign In</div>
   </div>
   <div class="divider"></div>
   <h1 class="card-headline">Welcome <em>back</em></h1>
   <p class="card-sub">Sign in to continue to your account</p>
 
-  <form>
+  <form onsubmit="event.preventDefault(); window.location.href='engine.html'; return false;">
     <div class="field">
       <label for="email">Email</label>
       <input type="email" id="email" name="email" placeholder="you@example.com" required>
@@ -51,10 +51,10 @@
     <div class="or-line"></div>
   </div>
 
-  <button class="btn-google">
+  <a href="engine.html" class="btn-google" style="display: flex; align-items: center; justify-content: center; text-decoration: none;">
     <span class="g-icon"></span>
     Continue with Google
-  </button>
+  </a>
 
   <div class="switch-row">
     Don't have an account? <a href="signup.html">Create one</a>

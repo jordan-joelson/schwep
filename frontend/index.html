@@ -12,8 +12,8 @@
 <body>
   <!-- ═══ NAV ═══ -->
   <nav>
-    <div class="nav-logo">sch<span>w</span>ep</div>
-    <a class="nav-cta" href="#cta">Try It Free →</a>
+    <div class="nav-logo"><img src="assets/images/schwep.png" alt="schwep"></div>
+    <a class="nav-cta" href="signup.html">Try It Free →</a>
   </nav>
 
   <!-- ═══ HERO ═══ -->
@@ -256,8 +256,54 @@
 
   <!-- ═══ FOOTER ═══ -->
   <footer>
-    <div class="foot-logo">sch<span>w</span>ep</div>
+    <div class="foot-logo"><img src="assets/images/schwep.png" alt="schwep"></div>
     <div class="foot-copy">© 2024 Schwep. All rights reserved.</div>
   </footer>
+
+  <script>
+    // Smooth blimp scroll animation - no locking, just smooth movement
+    const blimp = document.querySelector('.hero-blimp');
+    const hero = document.querySelector('.hero');
+    
+    if (blimp && hero) {
+      // Blimp travel distance
+      const blimpStartX = -300;
+      const blimpEndX = window.innerWidth + 300;
+      const blimpDistance = blimpEndX - blimpStartX;
+      
+      // Scroll range where blimp moves (first 800px of scroll)
+      const scrollRange = 800;
+      
+      function updateBlimp() {
+        const scrollY = window.scrollY;
+        
+        // Calculate progress (0 to 1) based on scroll position
+        let progress = scrollY / scrollRange;
+        progress = Math.max(0, Math.min(1, progress)); // Clamp between 0 and 1
+        
+        // Calculate blimp X position
+        const currentX = blimpStartX + (blimpDistance * progress);
+        blimp.style.left = currentX + 'px';
+      }
+      
+      // Use requestAnimationFrame for smooth updates
+      let ticking = false;
+      function onScroll() {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            updateBlimp();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+      
+      // Listen to scroll events
+      window.addEventListener('scroll', onScroll, { passive: true });
+      
+      // Initial position
+      updateBlimp();
+    }
+  </script>
 </body>
 </html>

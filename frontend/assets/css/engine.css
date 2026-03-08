@@ -138,6 +138,13 @@ html, body {
   color: var(--orange);
 }
 
+.hud-logo img {
+  height: 42px;
+  width: auto;
+  display: block;
+  opacity: .85;
+}
+
 .track-wrap {
   flex: 1;
   max-width: 460px;

@@ -168,12 +168,14 @@ body {
 
 .hero-blimp {
   position: absolute;
-  bottom: 30px; right: 0;
+  bottom: 30px;
+  left: -300px;
   width: 220px;
   mix-blend-mode: multiply;
   filter: drop-shadow(4px 6px 0 rgba(255,77,0,0.15));
   animation: blimpDrift 8s ease-in-out infinite;
   pointer-events: none;
+  transition: left 0.1s linear;
 }
 
 @keyframes blimpDrift {
