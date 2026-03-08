@@ -16,21 +16,29 @@ const DNA = {
   'Split Layout': [0.7, 0.55, 0.75, 0.35, 0.6, 0.65],
   'Swiss Grid': [0.95, 0.8, 0.6, 0.15, 0.45, 0.75],
   Editorial: [0.5, 0.3, 0.55, 0.6, 0.4, 0.3],
+  'Masonry Gallery': [0.75, 0.5, 0.65, 0.6, 0.8, 0.5],
+  'Hero Canvas': [0.85, 0.4, 0.8, 0.7, 0.9, 0.5],
   // SHAPE
   'Sharp Corners': [0.9, 0.95, 0.8, 0.1, 0.7, 0.8],
   'Soft Corners': [0.55, 0.35, 0.45, 0.65, 0.4, 0.45],
   'Round Corners': [0.45, 0.25, 0.4, 0.7, 0.45, 0.4],
   'Pill Shape': [0.3, 0.1, 0.35, 0.8, 0.55, 0.35],
+  'Cut Corners': [0.8, 0.85, 0.7, 0.2, 0.85, 0.75],
+  Organic: [0.2, 0.1, 0.3, 0.9, 0.7, 0.2],
   // TONE
   'Bold Tech': [0.85, 0.85, 0.9, 0.1, 0.85, 0.9],
   'Editorial Modern': [0.6, 0.4, 0.55, 0.55, 0.35, 0.3],
   'Raw Mono': [0.75, 0.7, 0.65, 0.15, 0.75, 0.95],
   Handwritten: [0.2, 0.1, 0.35, 0.9, 0.5, 0.1],
+  'Neo-Brutalist': [0.9, 0.9, 0.95, 0.3, 0.95, 0.6],
+  'Retro Serif': [0.4, 0.3, 0.6, 0.85, 0.7, 0.2],
   // FINISH
   'Grain Texture': [0.35, 0.3, 0.4, 0.8, 0.45, 0.2],
   'Clean Minimal': [0.8, 0.6, 0.5, 0.25, 0.4, 0.65],
   'Gritty Edge': [0.65, 0.8, 0.75, 0.2, 0.8, 0.7],
   'Neon Glow': [0.7, 0.65, 0.7, 0.1, 0.95, 0.95],
+  Glassmorphism: [0.6, 0.4, 0.4, 0.6, 0.7, 0.9],
+  Holographic: [0.5, 0.3, 0.4, 0.5, 0.85, 0.95],
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -117,6 +125,24 @@ const PALETTES = {
       { name: 'Slate', hex: '#888888', role: 'Muted' },
     ],
   },
+  Glassmorphism: {
+    swatches: [
+      { name: 'Vapor', hex: '#F0F0FC', role: 'Background' },
+      { name: 'Cobalt', hex: '#2A31FF', role: 'Primary' },
+      { name: 'Magenta', hex: '#FF00A0', role: 'Accent' },
+      { name: 'Frost', hex: '#FFFFFF', role: 'Surface' },
+      { name: 'Steel', hex: '#7C84A6', role: 'Muted' },
+    ],
+  },
+  Holographic: {
+    swatches: [
+      { name: 'Pearl', hex: '#FAFAFF', role: 'Background' },
+      { name: 'Abyss', hex: '#0F0524', role: 'Primary' },
+      { name: 'Prism', hex: '#00FFE0', role: 'Accent' },
+      { name: 'Cloud', hex: '#FFFFFF', role: 'Surface' },
+      { name: 'Amethyst', hex: '#9B51E0', role: 'Muted' },
+    ],
+  },
 };
 
 // ── Typography definitions keyed by Tone ─────────────────────────────────────
@@ -165,6 +191,28 @@ const TYPEFACES = {
     },
     meta: 'Georgia italic / Georgia 400i — intimate, handcrafted feel',
   },
+  'Neo-Brutalist': {
+    display: { name: 'Syne', weight: '800', size: '72px', style: 'normal', sample: 'BRUTAL' },
+    body: {
+      name: 'DM Mono',
+      weight: '700',
+      size: '15px',
+      style: 'normal',
+      sample: 'LOUD AND UNAPOLOGETIC INTERFACE COPY.',
+    },
+    meta: 'Syne 800 / DM Mono 700 — aggressive, high-energy impact',
+  },
+  'Retro Serif': {
+    display: { name: 'Georgia', weight: '700', size: '68px', style: 'italic', sample: 'Groove' },
+    body: {
+      name: 'Georgia',
+      weight: '400',
+      size: '16px',
+      style: 'normal',
+      sample: 'Expressive curves and vintage warmth.',
+    },
+    meta: 'Georgia 700i / Georgia 400 — classic 70s editorial feel',
+  },
 };
 
 // ── Archetype names from Frame + Tone combos ─────────────────────────────────
@@ -185,6 +233,20 @@ const ARCHETYPES = {
   'Editorial+Raw Mono': 'Dispatch',
   'Editorial+Editorial Modern': 'Classic Press',
   'Editorial+Handwritten': 'Personal Essay',
+  'Editorial+Neo-Brutalist': 'Anti-Design',
+  'Editorial+Retro Serif': 'Vintage Mag',
+  'Masonry Gallery+Bold Tech': 'Digital Portfolio',
+  'Masonry Gallery+Raw Mono': 'Archive Index',
+  'Masonry Gallery+Editorial Modern': 'Art Gallery',
+  'Masonry Gallery+Handwritten': 'Scrapbook',
+  'Masonry Gallery+Neo-Brutalist': 'Chaos Grid',
+  'Masonry Gallery+Retro Serif': 'Retro Showcase',
+  'Hero Canvas+Bold Tech': 'Impact Landing',
+  'Hero Canvas+Raw Mono': 'Code Splash',
+  'Hero Canvas+Editorial Modern': 'Cover Story',
+  'Hero Canvas+Handwritten': 'Personal Intro',
+  'Hero Canvas+Neo-Brutalist': 'Loud Canvas',
+  'Hero Canvas+Retro Serif': 'Nostalgia Feature',
 };
 
 // ── Spacing / radius tokens from Shape choice + editor state ─────────────────

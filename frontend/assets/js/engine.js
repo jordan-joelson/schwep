@@ -27,6 +27,61 @@ const ROUNDS = [
         desc: 'Magazine-style layout with large typography and white space.',
         preview: 'editorial',
       },
+      {
+        name: 'Masonry Gallery',
+        desc: 'A dynamic, interlocking grid layout perfect for mixed-media.',
+        preview: 'masonry',
+      },
+      {
+        name: 'Hero Canvas',
+        desc: 'A bold, full-bleed immersive layout emphasizing large visuals.',
+        preview: 'hero',
+      },
+      {
+        name: 'Asymmetric Grid',
+        desc: 'Unpredictable, artistic layout with elements of varying weights and alignments.',
+        preview: 'asym',
+      },
+      {
+        name: '12-Column Grid',
+        desc: 'Standard, deeply structured 12-column layout for complex, rational interfaces.',
+        preview: 'twelvecol',
+      },
+      {
+        name: 'F-Pattern',
+        desc: 'Optimized for reading behavior, scanning left-to-right and top-to-bottom.',
+        preview: 'fpattern',
+      },
+      {
+        name: 'Z-Pattern',
+        desc: 'Guides the eye in a zig-zag motion, perfect for landing pages and conversion.',
+        preview: 'zpattern',
+      },
+      {
+        name: 'Single Column',
+        desc: 'Minimalist, linear flow for focused storytelling and uninterrupted reading.',
+        preview: 'singlecol',
+      },
+      {
+        name: 'Sidebar Layout',
+        desc: 'Classic structural approach with persistent side navigation and content area.',
+        preview: 'sidebar',
+      },
+      {
+        name: 'Card Grid',
+        desc: 'Uniform, responsive grid composed entirely of identical modular components.',
+        preview: 'cardgrid',
+      },
+      {
+        name: 'Floating Layout',
+        desc: 'Elements appear to float weightlessly above the background canvas.',
+        preview: 'floating',
+      },
+      {
+        name: 'Golden Ratio',
+        desc: 'Mathematically balanced proportions creating intuitive, natural harmony.',
+        preview: 'golden',
+      },
     ],
   },
   {
@@ -48,6 +103,16 @@ const ROUNDS = [
         name: 'Pill Shape',
         desc: 'Fully rounded corners with 24px+ border radius.',
         preview: 'pill',
+      },
+      {
+        name: 'Cut Corners',
+        desc: 'Angled, chamfered corners with a brutalist, industrial feel.',
+        preview: 'cut',
+      },
+      {
+        name: 'Organic',
+        desc: 'Fluid, blob-like, imperfect curved corners.',
+        preview: 'organic',
       },
     ],
   },
@@ -71,6 +136,16 @@ const ROUNDS = [
         preview: 'rawmono',
       },
       { name: 'Handwritten', desc: 'Playful, personal script with organic flow.', preview: 'hand' },
+      {
+        name: 'Neo-Brutalist',
+        desc: 'High-contrast, thick borders, playful but aggressive typography.',
+        preview: 'neobrutalist',
+      },
+      {
+        name: 'Retro Serif',
+        desc: '70s inspired, expressive serif typography.',
+        preview: 'retro',
+      },
     ],
   },
   {
@@ -93,6 +168,16 @@ const ROUNDS = [
         preview: 'gritty',
       },
       { name: 'Neon Glow', desc: 'Vibrant neon effects with glowing highlights.', preview: 'neon' },
+      {
+        name: 'Glassmorphism',
+        desc: 'Frosted glass, translucent layered panels over blurred backgrounds.',
+        preview: 'glass',
+      },
+      {
+        name: 'Holographic',
+        desc: 'Iridescent, color-shifting gradients with a futuristic sheen.',
+        preview: 'holo',
+      },
     ],
   },
 ];
@@ -261,6 +346,164 @@ function generatePreview(type) {
       </div>
     `,
     neon: `<div class="pv-neon" style="background: rgba(4,4,20,0.98); border: 2px solid rgba(61,255,208,0.4); border-radius: 8px; box-shadow: 0 0 24px rgba(61,255,208,0.3), inset 0 0 24px rgba(61,255,208,0.15), 0 4px 16px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; font-weight: 900; letter-spacing: 0.2em; text-shadow: 0 0 16px #3DFFD0, 0 0 36px #3DFFD0, 0 0 56px rgba(61,255,208,0.5);">NEON</div>`,
+    masonry: `
+      <div class="pv-masonry" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1.5fr 1fr; gap: 8px; width: 100%; height: 100%; padding: 12px; background: rgba(255,255,255,0.4); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1);">
+        <div style="background: rgba(13,13,13,0.8); border-radius: 6px; padding: 10px; display: flex; flex-direction: column; justify-content: flex-end;">
+          <div style="width: 80%; height: 12px; background: rgba(255,255,255,0.8); border-radius: 3px; font-weight: 700; font-size: 0.6rem; color: #111; display:flex; align-items:center; padding:0 4px;">Media</div>
+        </div>
+        <div style="background: rgba(255,77,0,0.15); border: 1.5px solid rgba(255,77,0,0.3); border-radius: 6px; padding: 10px;">
+          <div style="width: 100%; height: 8px; background: rgba(13,13,13,0.2); border-radius: 2px; margin-bottom: 6px;"></div>
+          <div style="width: 70%; height: 8px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+        </div>
+        <div style="background: rgba(255,255,255,0.9); border: 1.5px solid rgba(13,13,13,0.1); border-radius: 6px; padding: 10px; grid-column: 1/3; display: flex; align-items: center;">
+          <div style="width: 90%; height: 10px; background: rgba(13,13,13,0.3); border-radius: 3px;"></div>
+        </div>
+      </div>
+    `,
+    hero: `
+      <div class="pv-hero" style="position: relative; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(13,13,13,0.9), rgba(13,13,13,0.7)); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;">
+        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: white; letter-spacing: -0.02em; margin-bottom: 8px;">IMMERSIVE</div>
+        <div style="width: 85%; height: 10px; background: rgba(255,255,255,0.4); border-radius: 2px; margin-bottom: 6px;"></div>
+        <div style="width: 60%; height: 10px; background: rgba(255,255,255,0.3); border-radius: 2px; margin-bottom: 14px;"></div>
+        <div style="width: 45%; height: 20px; background: var(--orange); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: bold; color: white;">Explore</div>
+      </div>
+    `,
+    asym: `
+      <div class="pv-asym" style="display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: 1fr 1.5fr; gap: 12px; width: 100%; height: 100%; padding: 16px; background: rgba(255,255,255,0.7); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1);">
+        <div style="background: rgba(13,13,13,0.08); border-radius: 6px; padding: 12px; align-self: end; border: 1px dashed rgba(13,13,13,0.2);">
+          <div style="width: 90%; height: 14px; background: rgba(13,13,13,0.3); border-radius: 3px;"></div>
+        </div>
+        <div style="background: rgba(255,77,0,0.1); border-radius: 6px; padding: 12px; grid-row: 1/3; border: 1.5px solid rgba(255,77,0,0.2);">
+          <div style="width: 100%; height: 8px; background: rgba(13,13,13,0.15); border-radius: 2px; margin-bottom: 8px;"></div>
+          <div style="width: 80%; height: 8px; background: rgba(13,13,13,0.15); border-radius: 2px; margin-bottom: 8px;"></div>
+          <div style="width: 60%; height: 8px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div>
+        </div>
+        <div style="background: rgba(13,13,13,0.85); border-radius: 6px; padding: 12px; display: flex; flex-direction: column; justify-content: center;">
+          <div style="width: 70%; height: 10px; background: rgba(255,255,255,0.8); border-radius: 3px; margin-bottom: 6px;"></div>
+          <div style="width: 50%; height: 8px; background: rgba(255,255,255,0.5); border-radius: 2px;"></div>
+        </div>
+      </div>
+    `,
+    twelvecol: `
+      <div class="pv-twelvecol" style="display: flex; flex-direction: column; gap: 8px; width: 100%; height: 100%; padding: 16px; background: rgba(255,255,255,0.8); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1); position: relative; overflow: hidden;">
+        <div style="display: flex; gap: 4px; height: 100%; position: absolute; top: 0; left: 16px; right: 16px; opacity: 0.4;">
+          ${Array.from({length: 12}).map(() => '<div style="flex: 1; height: 100%; border-left: 1px dashed rgba(255,77,0,0.4); border-right: 1px dashed rgba(255,77,0,0.4); background: rgba(255,77,0,0.05);"></div>').join('')}
+        </div>
+        <div style="z-index: 1; display: flex; flex-direction: column; gap: 8px; width: 100%; height: 100%;">
+          <div style="width: 100%; height: 16px; background: rgba(13,13,13,0.4); border-radius: 3px;"></div>
+          <div style="display: flex; gap: 8px; height: 40px;">
+            <div style="flex: 8; background: rgba(13,13,13,0.25); border-radius: 3px;"></div>
+            <div style="flex: 4; background: rgba(13,13,13,0.15); border-radius: 3px;"></div>
+          </div>
+          <div style="display: flex; gap: 8px; height: 30px;">
+            <div style="flex: 3; background: rgba(13,13,13,0.2); border-radius: 3px;"></div>
+            <div style="flex: 3; background: rgba(13,13,13,0.2); border-radius: 3px;"></div>
+            <div style="flex: 3; background: rgba(13,13,13,0.2); border-radius: 3px;"></div>
+            <div style="flex: 3; background: rgba(13,13,13,0.2); border-radius: 3px;"></div>
+          </div>
+        </div>
+      </div>
+    `,
+    fpattern: `
+      <div class="pv-fpattern" style="display: flex; flex-direction: column; gap: 10px; width: 100%; height: 100%; padding: 16px; background: rgba(255,255,255,0.9); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1);">
+        <div style="width: 90%; height: 18px; background: rgba(13,13,13,0.4); border-radius: 4px;"></div>
+        <div style="width: 100%; height: 8px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div>
+        <div style="width: 100%; height: 8px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div>
+        <div style="width: 75%; height: 16px; background: rgba(13,13,13,0.3); border-radius: 4px; margin-top: 6px;"></div>
+        <div style="width: 60%; height: 8px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div>
+        <div style="width: 50%; height: 8px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div>
+        <div style="width: 30%; height: 14px; background: rgba(255,77,0,0.25); border-radius: 4px; margin-top: 6px;"></div>
+      </div>
+    `,
+    zpattern: `
+      <div class="pv-zpattern" style="display: flex; flex-direction: column; justify-content: space-between; width: 100%; height: 100%; padding: 18px; background: rgba(255,255,255,0.9); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1); position: relative;">
+        <svg style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.25;" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M 20 20 L 80 20 L 20 80 L 80 80" fill="none" stroke="rgba(255,77,0,1)" stroke-width="2" stroke-dasharray="4 4" />
+        </svg>
+        <div style="display: flex; justify-content: space-between; align-items: center; z-index: 1;">
+          <div style="width: 30%; height: 16px; background: rgba(13,13,13,0.4); border-radius: 4px;"></div>
+          <div style="width: 40%; height: 12px; background: rgba(13,13,13,0.25); border-radius: 3px;"></div>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center; z-index: 1;">
+          <div style="width: 70%; height: 24px; background: rgba(13,13,13,0.15); border-radius: 6px;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; z-index: 1;">
+          <div style="width: 35%; height: 12px; background: rgba(13,13,13,0.25); border-radius: 3px;"></div>
+          <div style="width: 30%; height: 20px; background: rgba(255,77,0,0.6); border-radius: 4px;"></div>
+        </div>
+      </div>
+    `,
+    singlecol: `
+      <div class="pv-singlecol" style="display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; height: 100%; padding: 20px; background: rgba(255,255,255,0.9); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1);">
+        <div style="width: 70%; height: 18px; background: rgba(13,13,13,0.4); border-radius: 4px; margin-bottom: 6px;"></div>
+        <div style="width: 85%; height: 8px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+        <div style="width: 85%; height: 8px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+        <div style="width: 65%; height: 8px; background: rgba(13,13,13,0.2); border-radius: 2px; margin-bottom: 10px;"></div>
+        <div style="width: 85%; height: 35px; background: rgba(13,13,13,0.1); border-radius: 6px;"></div>
+      </div>
+    `,
+    sidebar: `
+      <div class="pv-sidebar" style="display: flex; width: 100%; height: 100%; background: rgba(255,255,255,0.8); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1); overflow: hidden;">
+        <div style="width: 35%; height: 100%; background: rgba(13,13,13,0.06); padding: 12px; display: flex; flex-direction: column; gap: 8px; border-right: 1px solid rgba(13,13,13,0.1);">
+          <div style="width: 80%; height: 14px; background: rgba(13,13,13,0.3); border-radius: 3px; margin-bottom: 6px;"></div>
+          <div style="width: 100%; height: 8px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+          <div style="width: 100%; height: 8px; background: rgba(255,77,0,0.3); border-radius: 2px;"></div>
+          <div style="width: 90%; height: 8px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+        </div>
+        <div style="flex: 1; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="width: 70%; height: 16px; background: rgba(13,13,13,0.4); border-radius: 4px; margin-bottom: 4px;"></div>
+          <div style="width: 100%; height: 8px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div>
+          <div style="width: 85%; height: 8px; background: rgba(13,13,13,0.15); border-radius: 2px;"></div>
+          <div style="width: 100%; height: 30px; background: rgba(255,77,0,0.15); border-radius: 4px; margin-top: auto;"></div>
+        </div>
+      </div>
+    `,
+    cardgrid: `
+      <div class="pv-cardgrid" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; width: 100%; height: 100%; padding: 12px; background: rgba(255,255,255,0.6); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1);">
+        ${Array.from({length: 4}).map(() => `
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid rgba(13,13,13,0.15); border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 4px 8px rgba(13,13,13,0.06);">
+            <div style="width: 100%; height: 20px; background: rgba(13,13,13,0.1); border-radius: 3px;"></div>
+            <div style="width: 80%; height: 6px; background: rgba(13,13,13,0.3); border-radius: 2px;"></div>
+            <div style="width: 60%; height: 6px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+          </div>
+        `).join('')}
+      </div>
+    `,
+    floating: `
+      <div class="pv-floating" style="position: relative; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(250,250,250,1) 0%, rgba(220,220,220,1) 100%); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1); overflow: hidden;">
+        <div style="position: absolute; top: 12%; left: 10%; right: 25%; height: 35%; background: rgba(255,255,255,1); border-radius: 8px; box-shadow: 0 16px 32px rgba(13,13,13,0.15); padding: 12px; display: flex; flex-direction: column; gap: 8px; z-index: 2;">
+          <div style="width: 60%; height: 12px; background: rgba(13,13,13,0.4); border-radius: 3px;"></div>
+          <div style="width: 90%; height: 6px; background: rgba(13,13,13,0.2); border-radius: 2px;"></div>
+        </div>
+        <div style="position: absolute; bottom: 12%; right: 10%; width: 60%; height: 45%; background: rgba(255,255,255,0.95); border-radius: 8px; box-shadow: 0 20px 40px rgba(255,77,0,0.2); padding: 12px; display: flex; flex-direction: column; gap: 8px; z-index: 3;">
+          <div style="width: 100%; height: 24px; background: rgba(255,77,0,0.2); border-radius: 4px;"></div>
+          <div style="width: 80%; height: 8px; background: rgba(13,13,13,0.25); border-radius: 2px;"></div>
+        </div>
+        <div style="position: absolute; top: 15%; right: 12%; width: 20px; height: 20px; background: rgba(255,77,0,0.15); border-radius: 50%; box-shadow: 0 8px 16px rgba(255,77,0,0.1); z-index: 1;"></div>
+      </div>
+    `,
+    golden: `
+      <div class="pv-golden" style="display: flex; width: 100%; height: 100%; padding: 12px; background: rgba(255,255,255,0.8); border-radius: 8px; border: 1.5px solid rgba(13,13,13,0.1); gap: 8px;">
+        <div style="flex: 1.618; background: rgba(13,13,13,0.05); border-radius: 6px; border: 1px dashed rgba(13,13,13,0.2); padding: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div style="font-family: 'DM Mono', monospace; font-size: 1.8rem; color: rgba(13,13,13,0.3); font-weight: 500;">A</div>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+          <div style="flex: 1; background: rgba(13,13,13,0.08); border-radius: 6px; border: 1px dashed rgba(13,13,13,0.25); display: flex; justify-content: center; align-items: center;">
+            <div style="font-family: 'DM Mono', monospace; font-size: 1.2rem; color: rgba(13,13,13,0.4); font-weight: 500;">B</div>
+          </div>
+          <div style="flex: 0.618; display: flex; gap: 8px;">
+             <div style="flex: 1; background: rgba(13,13,13,0.12); border-radius: 4px; border: 1px dashed rgba(13,13,13,0.3);"></div>
+             <div style="flex: 0.618; background: rgba(255,77,0,0.15); border-radius: 4px; border: 1px dashed rgba(255,77,0,0.4);"></div>
+          </div>
+        </div>
+      </div>
+    `,
+    cut: `<div class="pv-clean" style="background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.18); padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 4px 12px rgba(13,13,13,0.08); clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);"><div style="width: 100%; height: 18px; background: rgba(13,13,13,0.25); border-radius: 0; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(13,13,13,0.7); font-weight: 700; clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);">Card Title</div><div style="width: 82%; height: 14px; background: rgba(13,13,13,0.18);"></div><div style="width: 50%; height: 14px; background: rgba(255,77,0,0.3); font-size: 0.65rem; display: flex; align-items: center; justify-content: center; color: rgba(13,13,13,0.8); font-weight: 700; clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);">Action</div></div>`,
+    organic: `<div class="pv-clean" style="background: rgba(255,255,255,0.95); border: 2px solid rgba(13,13,13,0.18); padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 4px 12px rgba(13,13,13,0.08); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;"><div style="width: 100%; height: 18px; background: rgba(13,13,13,0.25); border-radius: 9px; font-size: 0.7rem; display: flex; align-items: center; padding: 0 8px; color: rgba(13,13,13,0.7); font-weight: 700;">Card Title</div><div style="width: 82%; height: 14px; background: rgba(13,13,13,0.18); border-radius: 7px;"></div><div style="width: 50%; height: 14px; background: rgba(255,77,0,0.3); border-radius: 7px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; color: rgba(13,13,13,0.8); font-weight: 700;">Action</div></div>`,
+    neobrutalist: `<div class="pv-neobrutalist" style="display: flex; flex-direction: column; justify-content: center; height: 100%; background: #FFE033; border: 4px solid #111; border-radius: 0; padding: 20px; box-shadow: 6px 6px 0 #111; position: relative;"><div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px; color: #111; text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 8px; line-height: 1;">BRUTAL</div><div style="font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; color: #111; background: #fff; border: 2px solid #111; padding: 6px 10px; width: fit-content;">PLAYFUL</div></div>`,
+    retro: `<div class="pv-retro" style="display: flex; align-items: center; justify-content: center; height: 100%; background: #F3E5D8; border: 1.5px solid #BC8A5C; border-radius: 8px; padding: 20px; box-shadow: inset 0 0 20px rgba(188,138,92,0.1);"><div style="font-family: 'Georgia', serif; font-size: 36px; font-weight: 700; color: #A54A2A; letter-spacing: -0.02em; line-height: 1; text-decoration: underline; text-decoration-color: rgba(165,74,42,0.4); text-decoration-thickness: 1px; text-underline-offset: 6px;">Groove</div></div>`,
+    glass: `<div class="pv-glass" style="position: relative; width: 100%; height: 100%; overflow: hidden; object-fit: cover; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 20px;"><div style="position: absolute; inset: 0; background: linear-gradient(45deg, #FF90E8, #FF4D00); opacity: 0.6; filter: blur(10px);"></div><div style="position: relative; z-index: 1; background: rgba(255,255,255,0.25); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; width: 100%; height: 100%; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); display: flex; flex-direction: column; padding: 16px; gap: 12px;"><div style="width: 70%; height: 16px; background: rgba(255,255,255,0.6); border-radius: 4px;"></div><div style="width: 100%; height: 10px; background: rgba(255,255,255,0.4); border-radius: 2px;"></div><div style="width: 80%; height: 10px; background: rgba(255,255,255,0.4); border-radius: 2px;"></div></div></div>`,
+    holo: `<div class="pv-holo" style="background: linear-gradient(135deg, rgba(255,144,232,0.2) 0%, rgba(61,255,208,0.2) 50%, rgba(255,77,255,0.2) 100%); border: 2px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0 8px 24px rgba(61,255,208,0.1), inset 0 0 20px rgba(255,255,255,0.3); display: flex; flex-direction: column; justify-content: center; padding: 24px; gap: 12px; height: 100%; position: relative; overflow: hidden;"><div style="position: absolute; width: 150%; height: 150%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: rotate(45deg); top: -25%; left: -25%; animation: shimmer 3s infinite linear;"></div><div style="width: 80%; height: 18px; background: linear-gradient(90deg, rgba(255,144,232,0.5), rgba(61,255,208,0.5)); border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></div><div style="width: 60%; height: 12px; background: rgba(255,255,255,0.6); border-radius: 3px;"></div></div>`,
   };
   return previews[type] || '<div class="pv-clean"><div></div></div>';
 }
@@ -681,6 +924,23 @@ function updateRadiusPreview() {
 function showFinale() {
   // Save final results to localStorage
   localStorage.setItem('schwep-results', JSON.stringify(results));
+
+  // Auto-save to gallery
+  try {
+    const savedVisions = JSON.parse(localStorage.getItem('schwep-visions') || '[]');
+    const newVision = {
+      frame: results.frame,
+      shape: results.shape,
+      tone: results.tone,
+      finish: results.finish,
+      radius: radiusValue,
+      timestamp: new Date().toISOString(),
+    };
+    savedVisions.push(newVision);
+    localStorage.setItem('schwep-visions', JSON.stringify(savedVisions));
+  } catch (e) {
+    console.error('Could not save vision', e);
+  }
 
   // Redirect to DNA reveal page
   setTimeout(() => {
