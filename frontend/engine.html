@@ -121,6 +121,36 @@
         letter-spacing: -0.01em;
         opacity: 0.85;
       }
+      .analysis-btn {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: none;
+        border: 1.5px solid var(--border);
+        border-radius: 9px;
+        cursor: pointer;
+        color: rgba(13, 13, 13, 0.45);
+        font-family: 'DM Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 7px 13px;
+        text-decoration: none;
+        transition: all 0.15s;
+      }
+      .analysis-btn:hover {
+        color: var(--ink);
+        border-color: rgba(13, 13, 13, 0.3);
+        background: rgba(13, 13, 13, 0.04);
+      }
+      .analysis-btn-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--orange);
+        flex-shrink: 0;
+        opacity: 0.75;
+      }
 
       /* ════════════════════════════════════
    TRACKER — slim strip
@@ -1820,8 +1850,12 @@
               />
             </svg>
           </div>
-          <span>Redo</span>
+          <span>Back</span>
         </button>
+        <a class="analysis-btn" href="archive.html">
+          <div class="analysis-btn-dot"></div>
+          Analysis
+        </a>
       </div>
 
       <!-- ══ TRACKER ══ -->
@@ -1919,7 +1953,7 @@
       <!-- ══ DONE ══ -->
       <div class="done-screen" id="done-screen">
         <div id="ds-output"><!-- built by showDone() / previewDesignSystem() --></div>
-        <button class="done-btn" id="btn-again">↺ Start Over</button>
+        <button class="done-btn" id="btn-again">⌂ Back</button>
       </div>
     </div>
 
@@ -3461,7 +3495,7 @@ ${choicesHTML}
         screen.classList.add('show');
         document.getElementById('ds-output').innerHTML = buildDesignSystem();
         const btn = document.getElementById('btn-again');
-        if (btn) btn.textContent = '↺ Start Over';
+        if (btn) btn.textContent = '⌂ Back';
       }
 
       function reset() {
@@ -3798,8 +3832,12 @@ ${choicesHTML}
         throwCard(false);
       });
       document.getElementById('btn-skip').addEventListener('click', doSkip);
-      document.getElementById('btn-again').addEventListener('click', reset);
-      document.getElementById('btn-back').addEventListener('click', reset);
+      document.getElementById('btn-again').addEventListener('click', () => {
+        window.location.href = 'index.html';
+      });
+      document.getElementById('btn-back').addEventListener('click', () => {
+        window.location.href = 'index.html';
+      });
 
       window.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') throwCard(true);

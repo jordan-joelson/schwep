@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="assets/css/auth.css" />
   </head>
   <body>
-    <!-- clouds — mix-blend-mode:multiply makes black bg disappear on sky blue -->
+    <!-- clouds -->
     <img class="cloud cloud-tl" src="assets/images/transparentcloud1.png" alt="" />
     <img class="cloud cloud-tr" src="assets/images/transparentcloud2.png" alt="" />
     <img class="cloud cloud-bl" src="assets/images/transparentcloud1.png" alt="" />
@@ -25,55 +25,67 @@
     <img class="blimp-sky" src="assets/images/MARTYBLIMP.png" alt="" />
 
     <div class="card">
-      <div class="logo">
-        <div class="logo-text"><img src="assets/images/schwep.png" alt="schwep" /></div>
-        <div class="logo-tag">Sign In</div>
-      </div>
-      <div class="divider"></div>
-      <h1 class="card-headline">Welcome <em>back</em></h1>
-      <p class="card-sub">Sign in to continue to your account</p>
+      <!-- LEFT: form -->
+      <div class="card-left">
+        <h1 class="form-headline">Welcome <em>back</em></h1>
+        <p class="form-sub">Sign in to continue to your account.</p>
 
-      <form
-        onsubmit="
-          event.preventDefault();
-          window.location.href = 'engine.html';
-          return false;
-        "
-      >
-        <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" />
-        </div>
-        <div class="field">
-          <div class="pw-row">
-            <label for="password">Password</label>
-            <button type="button" class="forgot">Forgot?</button>
+        <form
+          onsubmit="
+            event.preventDefault();
+            window.location.href = 'engine.html';
+            return false;
+          "
+        >
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" />
           </div>
-          <input type="password" id="password" name="password" placeholder="••••••••" />
-        </div>
-        <button type="submit" class="btn-submit">Sign In</button>
-      </form>
 
-      <div class="or-row">
-        <div class="or-line"></div>
-        <div class="or-text">OR</div>
-        <div class="or-line"></div>
+          <div class="field">
+            <div class="pw-row">
+              <label for="password">Password</label>
+              <button type="button" class="forgot">Forgot?</button>
+            </div>
+            <input type="password" id="password" name="password" placeholder="••••••••" />
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn-submit">Sign In</button>
+
+            <div class="or-row">
+              <div class="or-line"></div>
+              <div class="or-text">OR</div>
+              <div class="or-line"></div>
+            </div>
+
+            <a href="engine.html" class="btn-google">
+              <span class="g-icon"></span>
+              Continue with Google
+            </a>
+          </div>
+        </form>
       </div>
 
-      <a
-        href="engine.html"
-        class="btn-google"
-        style="display: flex; align-items: center; justify-content: center; text-decoration: none"
-      >
-        <span class="g-icon"></span>
-        Continue with Google
-      </a>
+      <!-- RIGHT: branding -->
+      <div class="card-right">
+        <div class="logo">
+          <div class="logo-text"><img src="assets/images/schwep.png" alt="schwep" /></div>
+          <div class="logo-tag">Sign In</div>
+        </div>
 
-      <div class="switch-row">Don't have an account? <a href="signup.html">Create one</a></div>
+        <p class="card-tagline">
+          Your <em>design DNA</em><br />is waiting for you.
+        </p>
 
-      <div class="small-print">
-        By continuing, you agree to our <a href="#">Terms of Service</a> and
-        <a href="#">Privacy Policy</a>.
+        <div class="switch-row">
+          Don't have an account? <a href="signup.html">Create one</a>
+        </div>
+
+        <div class="small-print">
+          By continuing, you agree to our <a href="#">Terms</a> and
+          <a href="#">Privacy Policy</a>.
+        </div>
       </div>
     </div>
   </body>

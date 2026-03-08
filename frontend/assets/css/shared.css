@@ -67,7 +67,7 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--white);
+  background: #f2efe9;
   border-bottom: var(--border);
   padding: 16px 48px;
   display: flex;
@@ -76,11 +76,11 @@ nav {
 }
 
 .nav-logo {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-size: 1.6rem;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
   color: var(--black);
-  letter-spacing: -0.5px;
+  letter-spacing: -0.02em;
   text-decoration: none;
   display: inline-block;
   cursor: pointer;
@@ -99,22 +99,24 @@ nav {
 .nav-cta {
   background: var(--black);
   color: var(--white);
-  border: var(--border);
-  border-radius: 100px;
-  padding: 10px 24px;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 700;
-  font-size: 0.85rem;
+  border: 1.5px solid rgba(13,13,13,0.15);
+  border-radius: 9px;
+  padding: 8px 18px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 3px 3px 0 var(--orange);
   transition: all 0.15s;
   text-decoration: none;
   display: inline-block;
 }
 
 .nav-cta:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 var(--orange);
+  background: var(--orange);
+  border-color: var(--orange);
+  transform: translateY(-1px);
 }
 
 /* ─────────────────────────────

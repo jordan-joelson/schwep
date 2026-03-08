@@ -2,7 +2,7 @@
    LANDING PAGE STYLES
 ───────────────────────────── */
 body {
-  background: var(--white);
+  background: #f2efe9;
   font-size: 17px;
   overflow-x: hidden;
 }
@@ -169,6 +169,8 @@ body {
   margin-bottom: 8px;
 }
 
+
+
 .hcard-title {
   font-family: 'Instrument Serif', serif;
   font-size: 1.4rem;
@@ -224,7 +226,48 @@ body {
 .marquee-strip {
   border-bottom: var(--border);
   background: var(--orange);
-  padding: 18px 0;
+  padding: 16px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+}
+
+.marquee-inner {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.marquee-inner span {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: white;
+  padding: 0 20px;
+  white-space: nowrap;
+}
+
+.marquee-inner .sep {
+  opacity: 0.5;
+  padding: 0 4px;
+  font-size: 0.6rem;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* ─────────────────────────────

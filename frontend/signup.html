@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="assets/css/auth.css" />
   </head>
   <body>
-    <!-- clouds — mix-blend-mode:multiply makes black bg disappear on sky blue -->
+    <!-- clouds -->
     <img class="cloud cloud-tl" src="assets/images/transparentcloud1.png" alt="" />
     <img class="cloud cloud-tr" src="assets/images/transparentcloud2.png" alt="" />
     <img class="cloud cloud-bl" src="assets/images/transparentcloud1.png" alt="" />
@@ -25,67 +25,83 @@
     <img class="blimp-sky" src="assets/images/MARTYBLIMP.png" alt="" />
 
     <div class="card">
-      <div class="logo">
-        <div class="logo-text"><img src="assets/images/schwep.png" alt="schwep" /></div>
-        <div class="logo-tag">Create Account</div>
-      </div>
-      <div class="divider"></div>
-      <h1 class="card-headline">Get <em>started</em></h1>
-      <p class="card-sub">Create your account to begin extracting your design DNA</p>
+      <!-- LEFT: form -->
+      <div class="card-left">
+        <h1 class="form-headline">Get <em>started</em></h1>
+        <p class="form-sub">Create your account to begin extracting your design DNA.</p>
 
-      <form
-        onsubmit="
-          event.preventDefault();
-          window.location.href = 'engine.html';
-          return false;
-        "
-      >
-        <div class="field">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" name="name" placeholder="John Doe" />
-        </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" />
-        </div>
-        <div class="field">
-          <div class="pw-row">
-            <label for="password">Password</label>
+        <form
+          onsubmit="
+            event.preventDefault();
+            window.location.href = 'engine.html';
+            return false;
+          "
+        >
+          <!-- name + email side by side -->
+          <div class="fields-row">
+            <div class="field">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="John Doe" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" />
+            </div>
           </div>
-          <input type="password" id="password" name="password" placeholder="••••••••" />
-        </div>
-        <div class="field">
-          <label for="confirm-password">Confirm Password</label>
-          <input
-            type="password"
-            id="confirm-password"
-            name="confirm-password"
-            placeholder="••••••••"
-          />
-        </div>
-        <button type="submit" class="btn-submit">Create Account</button>
-      </form>
 
-      <div class="or-row">
-        <div class="or-line"></div>
-        <div class="or-text">OR</div>
-        <div class="or-line"></div>
+          <!-- passwords side by side -->
+          <div class="fields-row">
+            <div class="field">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="••••••••" />
+            </div>
+            <div class="field">
+              <label for="confirm-password">Confirm Password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+                placeholder="••••••••"
+              />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn-submit">Create Account</button>
+
+            <div class="or-row">
+              <div class="or-line"></div>
+              <div class="or-text">OR</div>
+              <div class="or-line"></div>
+            </div>
+
+            <a href="engine.html" class="btn-google">
+              <span class="g-icon"></span>
+              Continue with Google
+            </a>
+          </div>
+        </form>
       </div>
 
-      <a
-        href="engine.html"
-        class="btn-google"
-        style="display: flex; align-items: center; justify-content: center; text-decoration: none"
-      >
-        <span class="g-icon"></span>
-        Continue with Google
-      </a>
+      <!-- RIGHT: branding -->
+      <div class="card-right">
+        <div class="logo">
+          <div class="logo-text"><img src="assets/images/schwep.png" alt="schwep" /></div>
+          <div class="logo-tag">Create Account</div>
+        </div>
 
-      <div class="switch-row">Already have an account? <a href="login.html">Sign in</a></div>
+        <p class="card-tagline">
+          Discover your<br /><em>design DNA</em><br />in minutes.
+        </p>
 
-      <div class="small-print">
-        By continuing, you agree to our <a href="#">Terms of Service</a> and
-        <a href="#">Privacy Policy</a>.
+        <div class="switch-row">
+          Already have an account? <a href="login.html">Sign in</a>
+        </div>
+
+        <div class="small-print">
+          By continuing, you agree to our <a href="#">Terms</a> and
+          <a href="#">Privacy Policy</a>.
+        </div>
       </div>
     </div>
   </body>

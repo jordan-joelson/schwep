@@ -643,7 +643,9 @@ function setupButtons() {
     }
   });
   document.getElementById('btn-copy').addEventListener('click', copyDNA);
-  document.getElementById('btn-again').addEventListener('click', reset);
+  document.getElementById('btn-again').addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
 }
 
 function setupShapeOverlay() {
