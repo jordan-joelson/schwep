@@ -1,0 +1,15 @@
+/* ─────────────────────────────
+   CSS VARIABLES / TOKENS
+───────────────────────────── */
+:root {
+  --black: #0D0D0D;
+  --white: #FAFAF7;
+  --orange: #FF4D00;
+  --pink: #FF90E8;
+  --sky: #B8D9F0;
+  --sky2: #D4EAFA;
+  --border: 3px solid #0D0D0D;
+  --shadow: 6px 6px 0 #0D0D0D;
+  --shadow-lg: 10px 10px 0 #0D0D0D;
+  --r: 12px;
+}

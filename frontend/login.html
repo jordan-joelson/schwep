@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schwep — Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/variables.css">
+<link rel="stylesheet" href="assets/css/shared.css">
+<link rel="stylesheet" href="assets/css/auth.css">
+</head>
+<body>
+<!-- clouds — mix-blend-mode:multiply makes black bg disappear on sky blue -->
+<img class="cloud cloud-tl" src="assets/images/transparentcloud1.png" alt="">
+<img class="cloud cloud-tr" src="assets/images/transparentcloud2.png" alt="">
+<img class="cloud cloud-bl" src="assets/images/transparentcloud1.png" alt="">
+<img class="cloud cloud-br" src="assets/images/transparentcloud2.png" alt="">
+<img class="cloud cloud-ml" src="assets/images/transparentcloud1.png" alt="">
+<img class="cloud cloud-mr" src="assets/images/transparentcloud2.png" alt="">
+
+<!-- blimp -->
+<img class="blimp-sky" src="assets/images/MARTYBLIMP.png" alt="">
+
+<div class="card">
+  <div class="logo">
+    <div class="logo-text">sch<span>w</span>ep</div>
+    <div class="logo-tag">Sign In</div>
+  </div>
+  <div class="divider"></div>
+  <h1 class="card-headline">Welcome <em>back</em></h1>
+  <p class="card-sub">Sign in to continue to your account</p>
+
+  <form>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+    </div>
+    <div class="field">
+      <div class="pw-row">
+        <label for="password">Password</label>
+        <button type="button" class="forgot">Forgot?</button>
+      </div>
+      <input type="password" id="password" name="password" placeholder="••••••••" required>
+    </div>
+    <button type="submit" class="btn-submit">Sign In</button>
+  </form>
+
+  <div class="or-row">
+    <div class="or-line"></div>
+    <div class="or-text">OR</div>
+    <div class="or-line"></div>
+  </div>
+
+  <button class="btn-google">
+    <span class="g-icon"></span>
+    Continue with Google
+  </button>
+
+  <div class="switch-row">
+    Don't have an account? <a href="signup.html">Create one</a>
+  </div>
+
+  <div class="small-print">
+    By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+  </div>
+</div>
+</body>
+</html>
