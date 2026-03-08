@@ -5,7 +5,11 @@ body {
   background: var(--white);
   font-size: 17px;
   overflow-x: hidden;
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='5' fill='%23FF4D00'/%3E%3C/svg%3E") 12 12, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M8 0 L8 6 M8 10 L8 16 M0 8 L6 8 M10 8 L16 8' stroke='%230D0D0D' stroke-width='1.2'/%3E%3Ccircle cx='8' cy='8' r='1.5' fill='%230D0D0D'/%3E%3C/svg%3E") 8 8, crosshair;
+}
+
+a, button, [role='button'], input[type='button'], input[type='submit'], .nav-logo, .nav-cta {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M2 2 L14 14 M14 2 L2 14' stroke='%230D0D0D' stroke-width='1.2'/%3E%3Ccircle cx='8' cy='8' r='1.5' fill='%230D0D0D'/%3E%3C/svg%3E") 8 8, pointer;
 }
 
 /* ─────────────────────────────
@@ -97,11 +101,11 @@ body {
   border: var(--border);
   border-radius: var(--r);
   padding: 28px;
-  width: 280px;
+  width: 320px;
 }
 
 .hcard-1 {
-  top: 40px; left: 20px;
+  top: 20px; left: 60px;
   box-shadow: var(--shadow-lg);
   background: var(--black);
   color: var(--white);
@@ -110,7 +114,7 @@ body {
 }
 
 .hcard-2 {
-  top: 160px; left: 120px;
+  top: 140px; left: 160px;
   box-shadow: var(--shadow);
   background: var(--pink);
   z-index: 2;
@@ -118,7 +122,7 @@ body {
 }
 
 .hcard-3 {
-  top: 290px; left: 40px;
+  top: 260px; left: 80px;
   box-shadow: var(--shadow);
   background: var(--orange);
   color: white;
@@ -503,13 +507,12 @@ body {
   text-align: center;
 }
 
-.cbox-brand {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-size: 2.8rem;
-  color: white;
-  text-shadow: 4px 4px 0 var(--black);
-  line-height: 1;
+.cbox-logo {
+  height: 56px;
+  width: auto;
+  display: block;
+  margin: 0 auto 8px;
+  filter: drop-shadow(3px 3px 0 rgba(13, 13, 13, .3));
 }
 
 .cbox-sub {

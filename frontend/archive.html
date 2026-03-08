@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Schwep — My Collections</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Playfair+Display:ital@1&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/shared.css">
+  <link rel="stylesheet" href="assets/css/archive.css">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen">
+    <img src="assets/images/schwep.png" alt="Schwep Logo" class="loading-logo">
+  </div>
+
+  <div class="sky"></div>
+  
+  <!-- Clouds -->
+  <img class="cloud cl-bl" src="assets/images/transparentcloud1.png" alt="Cloud">
+  <img class="cloud cl-br" src="assets/images/transparentcloud2.png" alt="Cloud">
+  <img class="cloud cl-ml" src="assets/images/transparentcloud1.png" alt="Cloud">
+  <img class="cloud cl-mr" src="assets/images/transparentcloud2.png" alt="Cloud">
+
+  <!-- Navigation -->
+  <nav class="archive-nav">
+    <a href="index.html" class="nav-logo"><img src="assets/images/schwep.png" alt="schwep"></a>
+    <div class="nav-actions">
+      <a class="btn-new" href="engine.html">New Vision</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="archive-container">
+    <div class="archive-header">
+      <div class="archive-eyebrow">My Collections</div>
+      <h1 class="archive-title">The <em>Archive</em></h1>
+      <p class="archive-subtitle">Your saved design visions and learned technical terms.</p>
+    </div>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+      <h2 class="section-title">Saved Visions</h2>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Visions will be loaded dynamically -->
+      </div>
+      <div class="empty-state" id="empty-state">
+        <p>No saved visions yet. <a href="engine.html">Create your first vision →</a></p>
+      </div>
+    </section>
+
+    <!-- Design Dictionary Section -->
+    <section class="dictionary-section">
+      <h2 class="section-title">Design Dictionary</h2>
+      <p class="dictionary-intro">Technical terms you've learned through your design journey.</p>
+      <div class="dictionary-grid" id="dictionary-grid">
+        <!-- Terms will be loaded dynamically -->
+      </div>
+    </section>
+
+    <!-- Component Library Section -->
+    <section class="library-section">
+      <h2 class="section-title">Component Library</h2>
+      <p class="library-intro">UI components and patterns for building interfaces with your design DNA.</p>
+      <div class="library-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="form">Form</button>
+        <button class="filter-btn" data-filter="navigation">Navigation</button>
+        <button class="filter-btn" data-filter="feedback">Feedback</button>
+        <button class="filter-btn" data-filter="layout">Layout</button>
+        <button class="filter-btn" data-filter="content">Content</button>
+      </div>
+      <div class="library-grid" id="library-grid">
+        <!-- Components will be loaded dynamically -->
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/archive.js"></script>
+</body>
+</html>

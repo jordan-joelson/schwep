@@ -79,6 +79,9 @@ nav {
   font-size: 1.6rem;
   color: var(--black);
   letter-spacing: -0.5px;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
 }
 
 .nav-logo span {

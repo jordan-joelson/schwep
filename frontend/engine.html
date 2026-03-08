@@ -9,6 +9,13 @@
   <link rel="stylesheet" href="assets/css/engine.css">
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div class="loader" id="loader">
+    <div class="loader-content">
+      <img src="assets/images/schwep.png" alt="schwep" style="height: 60px; width: auto; opacity: 0.9;">
+    </div>
+  </div>
+
   <div class="flash" id="flash"></div>
   <div class="sky"></div>
   
@@ -20,7 +27,7 @@
 
   <!-- HUD -->
   <div class="hud">
-    <div class="hud-logo"><img src="assets/images/schwep.png" alt="schwep"></div>
+    <a href="index.html" class="hud-logo"><img src="assets/images/schwep.png" alt="schwep"></a>
     <div class="track-wrap">
       <div class="track-line"></div>
       <div class="track-stops">
@@ -61,11 +68,11 @@
 
     <!-- SWIPE BUTTONS -->
     <div class="swipe-btns">
-      <div>
+      <div class="sb-wrapper">
         <button class="sb sb-nope" id="btn-nope">✕</button>
         <div class="sb-lbl">Nope</div>
       </div>
-      <div>
+      <div class="sb-wrapper">
         <button class="sb sb-like" id="btn-like">✓</button>
         <div class="sb-lbl">Like</div>
       </div>
@@ -108,7 +115,7 @@
   <div class="finale" id="finale">
     <div class="fc">
       <div class="fc-top">
-        <div class="fc-brand">sch<span>w</span>ep</div>
+        <img class="fc-logo" src="assets/images/schwep.png" alt="Schwep">
         <div class="fc-sub">Your Design DNA</div>
       </div>
       <div class="fc-panel">

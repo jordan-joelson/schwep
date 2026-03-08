@@ -11,7 +11,7 @@ body {
   position: relative;
   /* sky gradient */
   background: linear-gradient(
-    175deg, #A8D4EE 0%, #C2E2F5 30%, #D8EEF9 60%, #E8F5FC 100%
+    175deg, #90e0ef 0%, #A0E8F2 30%, #B5F0F5 60%, #CAF5F8 100%
   );
 }
 
@@ -37,7 +37,7 @@ body::after {
   left: 0;
   right: 0;
   height: 80px;
-  background: linear-gradient(180deg, transparent, rgba(168,212,238,0.3));
+  background: linear-gradient(180deg, transparent, rgba(144,224,239,0.3));
   pointer-events: none;
   z-index: 0;
 }
