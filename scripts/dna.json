@@ -12,5 +12,5 @@
     { "name": "Mist", "hex": "#F5F5F5", "role": "Surface" },
     { "name": "Slate", "hex": "#888888", "role": "Muted" }
   ],
-  "dnaVec": [0.9, 0.75, 0.7, 0.2, 0.65, 0.85]
+  "blueprintVec": [0.9, 0.75, 0.7, 0.2, 0.65, 0.85]
 }

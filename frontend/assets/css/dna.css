@@ -290,18 +290,18 @@ body {
   color: rgba(13, 13, 13, 0.5);
 }
 
-/* — DNA fingerprint — */
-.dna-fp {
+/* — Blueprint fingerprint — */
+.blueprint-fp {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.dna-fp-row {
+.blueprint-fp-row {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.dna-fp-label {
+.blueprint-fp-label {
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -310,19 +310,19 @@ body {
   flex-shrink: 0;
   text-align: right;
 }
-.dna-fp-bar-bg {
+.blueprint-fp-bar-bg {
   flex: 1;
   height: 6px;
   background: rgba(13, 13, 13, 0.07);
   border-radius: 99px;
   overflow: hidden;
 }
-.dna-fp-bar-fill {
+.blueprint-fp-bar-fill {
   height: 100%;
   border-radius: 99px;
   background: var(--orange);
 }
-.dna-fp-num {
+.blueprint-fp-num {
   font-family: 'DM Mono', monospace;
   font-size: 9px;
   color: rgba(13, 13, 13, 0.3);

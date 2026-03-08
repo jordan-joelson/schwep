@@ -653,25 +653,25 @@ function formatDate(timestamp) {
 function viewVision(index) {
   const savedVisions = JSON.parse(localStorage.getItem('schwep-visions') || '[]');
   if (savedVisions[index]) {
-    // Save to current results and redirect to DNA page
+    // Save to current results and redirect to Blueprint page
     localStorage.setItem('schwep-results', JSON.stringify(savedVisions[index]));
-    window.location.href = 'dna.html';
+    window.location.href = 'blueprint.html';
   }
 }
 
 function copyVision(index) {
   const savedVisions = JSON.parse(localStorage.getItem('schwep-visions') || '[]');
   if (savedVisions[index]) {
-    const dnaCode = JSON.stringify(savedVisions[index], null, 2);
+    const blueprintCode = JSON.stringify(savedVisions[index], null, 2);
     navigator.clipboard
-      .writeText(dnaCode)
+      .writeText(blueprintCode)
       .then(() => {
         showToast('Vision copied to clipboard!');
       })
       .catch(() => {
         // Fallback
         const textarea = document.createElement('textarea');
-        textarea.value = dnaCode;
+        textarea.value = blueprintCode;
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand('copy');

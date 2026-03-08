@@ -8,9 +8,9 @@ let st = {
   },
 };
 
-let dnaVec = [0.9, 0.75, 0.7, 0.2, 0.65, 0.85];
+let blueprintVec = [0.9, 0.75, 0.7, 0.2, 0.65, 0.85];
 
-const DNA = {
+const BLUEPRINT = {
   // FRAME
   'Bento Grid': [0.9, 0.75, 0.7, 0.2, 0.65, 0.85],
   'Split Layout': [0.7, 0.55, 0.75, 0.35, 0.6, 0.65],
@@ -71,19 +71,19 @@ function loadResults() {
   }
 }
 
-function computeDnaVec() {
+function computeBlueprintVec() {
   const choices = [st.results.Frame, st.results.Shape, st.results.Tone, st.results.Finish];
   let vec = [0, 0, 0, 0, 0, 0];
   let count = 0;
   choices.forEach((ch) => {
-    if (DNA[ch]) {
-      for (let i = 0; i < 6; i++) vec[i] += DNA[ch][i];
+    if (BLUEPRINT[ch]) {
+      for (let i = 0; i < 6; i++) vec[i] += BLUEPRINT[ch][i];
       count++;
     }
   });
   if (count > 0) {
     for (let i = 0; i < 6; i++) vec[i] /= count;
-    dnaVec = vec;
+    blueprintVec = vec;
   }
 }
 
@@ -283,7 +283,7 @@ function buildDesignSystem() {
   const archetype = ARCHETYPES[`${frame}+${tone}`] || 'Design System';
   const radius = st.results['Radius'] || 12;
   const tokens = getRadiusTokens(shape, radius);
-  const vec = dnaVec || [0.9, 0.75, 0.7, 0.2, 0.65, 0.85];
+  const vec = blueprintVec || [0.9, 0.75, 0.7, 0.2, 0.65, 0.85];
   const bg = palette.swatches[0].hex;
   const primary = palette.swatches[1].hex;
   const accent = palette.swatches[2].hex;
@@ -363,25 +363,25 @@ function buildDesignSystem() {
   </div>
 </div>`;
 
-  // DNA fingerprint HTML
+  // Blueprint fingerprint HTML
   const axes = ['Structure', 'Edge', 'Weight', 'Warmth', 'Energy', 'Digital'];
   const fpHTML = `
 <div class="ds-panel">
   <div class="ds-panel-head">
-    <span class="ds-panel-tag">DNA Fingerprint</span>
+    <span class="ds-panel-tag">Blueprint Fingerprint</span>
     <span class="ds-panel-val" style="font-style:italic;color:var(--orange);">${archetype}</span>
   </div>
   <div class="ds-panel-body">
-    <div class="dna-fp">
+    <div class="blueprint-fp">
       ${axes
         .map((ax, i) => {
           const pct = Math.round(vec[i] * 100);
           const fillColor =
             pct >= 70 ? 'var(--orange)' : pct >= 45 ? 'rgba(13,13,13,.35)' : 'rgba(13,13,13,.15)';
-          return `<div class="dna-fp-row">
-          <div class="dna-fp-label">${ax}</div>
-          <div class="dna-fp-bar-bg"><div class="dna-fp-bar-fill" style="width:${pct}%;background:${fillColor};"></div></div>
-          <div class="dna-fp-num">${pct}</div>
+          return `<div class="blueprint-fp-row">
+          <div class="blueprint-fp-label">${ax}</div>
+          <div class="blueprint-fp-bar-bg"><div class="blueprint-fp-bar-fill" style="width:${pct}%;background:${fillColor};"></div></div>
+          <div class="blueprint-fp-num">${pct}</div>
         </div>`;
         })
         .join('')}
@@ -419,7 +419,7 @@ function buildDesignSystem() {
     <div class="ds-headline">Your</div>
     <div class="ds-archetype">${archetype}</div>
   </div>
-  <div class="ds-tagline">DNA vector locked · ${
+  <div class="ds-tagline">Blueprint vector locked · ${
     axes
       .filter((_, i) => vec[i] > 0.7)
       .map((a) => a.toLowerCase())
@@ -503,7 +503,7 @@ function setupButtons() {
 
   if (btnCopy) {
     btnCopy.addEventListener('click', () => {
-      const dnaCode = JSON.stringify(
+      const blueprintCode = JSON.stringify(
         {
           frame: st.results.Frame,
           shape: st.results.Shape,
@@ -517,17 +517,17 @@ function setupButtons() {
       );
 
       navigator.clipboard
-        .writeText(dnaCode)
+        .writeText(blueprintCode)
         .then(() => {
           btnCopy.textContent = 'Copied!';
           setTimeout(() => {
-            btnCopy.textContent = 'Copy DNA';
+            btnCopy.textContent = 'Copy Blueprint';
           }, 2000);
         })
         .catch(() => {
           btnCopy.textContent = 'Error!';
           setTimeout(() => {
-            btnCopy.textContent = 'Copy DNA';
+            btnCopy.textContent = 'Copy Blueprint';
           }, 2000);
         });
     });

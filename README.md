@@ -1,6 +1,6 @@
 # Schwep — Stop Explaining. Start Matching.
 
-Schwep is a 4-round assembly line that extracts your wordless creative vision and translates it into the technical DNA of a high-end website.
+Schwep is a 4-round assembly line that extracts your wordless creative vision and translates it into the technical blueprint of a high-end website.
 
 ## Project Structure
 

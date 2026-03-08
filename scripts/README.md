@@ -1,20 +1,20 @@
 # Scripts
 
-## dna-to-svg.js — JSON → SVG Design DNA spec sheet
+## blueprint-to-svg.js — JSON → SVG Design Blueprint spec sheet
 
-Converts a Schwep DNA JSON file into a printable SVG design specification.
+Converts a Schwep Blueprint JSON file into a printable SVG design specification.
 
 ### Usage
 
 ```bash
-# From file (writes design-dna.svg to same directory)
+# From file (writes design-blueprint.svg to same directory)
 node scripts/dna-to-svg.js scripts/dna.json
 
 # From stdin
-cat dna.json | node scripts/dna-to-svg.js > design-dna.svg
+cat dna.json | node scripts/dna-to-svg.js > design-blueprint.svg
 ```
 
-### DNA JSON format
+### Blueprint JSON format
 
 ```json
 {
@@ -31,10 +31,10 @@ cat dna.json | node scripts/dna-to-svg.js > design-dna.svg
     { "name": "Mist", "hex": "#F5F5F5", "role": "Surface" },
     { "name": "Slate", "hex": "#888888", "role": "Muted" }
   ],
-  "dnaVec": [0.9, 0.75, 0.7, 0.2, 0.65, 0.85]
+  "blueprintVec": [0.9, 0.75, 0.7, 0.2, 0.65, 0.85]
 }
 ```
 
 ### Browser export
 
-The engine's done screen also has an **Export SVG** button that downloads `design-dna.svg` directly from your current design system state.
+The engine's done screen also has an **Export SVG** button that downloads `design-blueprint.svg` directly from your current design system state.

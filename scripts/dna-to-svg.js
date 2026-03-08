@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 /**
- * JSON → SVG — Schwep Design DNA spec sheet
- * Usage: node scripts/dna-to-svg.js [dna.json]
+ * JSON → SVG — Schwep Design Blueprint spec sheet
+ * Usage: node scripts/blueprint-to-svg.js [blueprint.json]
  *   With no arg: reads from stdin
- *   With arg: reads from file, writes design-dna.svg to same dir
+ *   With arg: reads from file, writes design-blueprint.svg to same dir
  */
 
 const fs = require('fs');
 const path = require('path');
 
-function dnaToSvg(dna) {
+function blueprintToSvg(blueprint) {
   const pal = {};
-  (dna.palette || []).forEach((p) => {
+  (blueprint.palette || []).forEach((p) => {
     pal[p.role] = p.hex;
   });
 
@@ -20,13 +20,13 @@ function dnaToSvg(dna) {
   const ACCENT = pal['Accent'] || pal['accent'] || '#888888';
   const SURFACE = pal['Surface'] || pal['surface'] || '#F5F5F5';
   const MUTED = pal['Muted'] || pal['muted'] || pal['Text'] || '#999999';
-  const R = dna.radius ?? 8;
+  const R = blueprint.radius ?? 8;
 
   const W = 1200;
   const H = 800;
 
   const grain =
-    (dna.finish || '').toLowerCase().includes('grain')
+    (blueprint.finish || '').toLowerCase().includes('grain')
       ? `
   <filter id="grain" x="0%" y="0%" width="100%" height="100%">
     <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
@@ -37,7 +37,7 @@ function dnaToSvg(dna) {
       : '';
 
   const vecLabels = ['Frame', 'Palette', 'Tone', 'Finish', 'Archetype', 'Texture'];
-  const vec = dna.dnaVec || [];
+  const vec = blueprint.blueprintVec || blueprint.dnaVec || [];
   const barW = 320;
   const barH = 10;
   const barGap = 28;
@@ -63,7 +63,7 @@ function dnaToSvg(dna) {
   const swatchStartX = 60;
   const swatchY = 480;
 
-  const swatches = (dna.palette || [])
+  const swatches = (blueprint.palette || [])
     .map((p, i) => {
       const x = swatchStartX + i * (swatchSize + swatchGap);
       return `
@@ -91,13 +91,13 @@ function dnaToSvg(dna) {
   const gap = 16;
   let px = 60;
   const pillsRow1 = [
-    ['FRAME', dna.frame || '—'],
-    ['SHAPE', dna.shape || '—'],
-    ['TONE', dna.tone || '—'],
+    ['FRAME', blueprint.frame || '—'],
+    ['SHAPE', blueprint.shape || '—'],
+    ['TONE', blueprint.tone || '—'],
   ];
   const pillsRow2 = [
-    ['FINISH', dna.finish || '—'],
-    ['RADIUS', `${dna.radius ?? 8}px`],
+    ['FINISH', blueprint.finish || '—'],
+    ['RADIUS', `${blueprint.radius ?? 8}px`],
   ];
 
   const pills1 = pillsRow1
@@ -125,20 +125,20 @@ function dnaToSvg(dna) {
 
   <!-- Background -->
   <rect width="${W}" height="${H}" fill="${BG}"/>
-  ${(dna.finish || '').toLowerCase().includes('grain') ? `<rect width="${W}" height="${H}" fill="${BG}" filter="url(#grain)" opacity="0.4"/>` : ''}
+  ${(blueprint.finish || '').toLowerCase().includes('grain') ? `<rect width="${W}" height="${H}" fill="${BG}" filter="url(#grain)" opacity="0.4"/>` : ''}
 
   <!-- Top rule -->
   <line x1="60" y1="60" x2="${W - 60}" y2="60" stroke="${INK}" stroke-width="1" opacity="0.15"/>
 
   <!-- Header -->
-  <text x="60" y="52" font-family="monospace" font-size="10" fill="${MUTED}" letter-spacing="0.14em" opacity="0.7">SCHWEP DESIGN DNA</text>
+  <text x="60" y="52" font-family="monospace" font-size="10" fill="${MUTED}" letter-spacing="0.14em" opacity="0.7">SCHWEP DESIGN BLUEPRINT</text>
   <text x="${W - 60}" y="52" font-family="monospace" font-size="10" fill="${MUTED}" text-anchor="end" letter-spacing="0.06em" opacity="0.5">v1.0</text>
 
   <!-- Archetype -->
-  <text x="60" y="160" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="${INK}" letter-spacing="-2">${dna.archetype || 'Archetype'}</text>
+  <text x="60" y="160" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="${INK}" letter-spacing="-2">${blueprint.archetype || 'Archetype'}</text>
 
   <!-- Frame + tone sub -->
-  <text x="60" y="196" font-family="monospace" font-size="13" fill="${ACCENT}" letter-spacing="0.08em">${dna.frame || '—'}  ·  ${dna.tone || '—'}</text>
+  <text x="60" y="196" font-family="monospace" font-size="13" fill="${ACCENT}" letter-spacing="0.08em">${blueprint.frame || '—'}  ·  ${blueprint.tone || '—'}</text>
 
   <!-- Tag pills -->
   ${pills1}
@@ -147,8 +147,8 @@ function dnaToSvg(dna) {
   <!-- Divider -->
   <line x1="620" y1="100" x2="620" y2="${H - 80}" stroke="${INK}" stroke-width="0.5" opacity="0.12"/>
 
-  <!-- DNA Vector -->
-  <text x="${vecX}" y="310" font-family="monospace" font-size="10" fill="${MUTED}" letter-spacing="0.14em" opacity="0.7">DNA VECTOR</text>
+  <!-- Blueprint Vector -->
+  <text x="${vecX}" y="310" font-family="monospace" font-size="10" fill="${MUTED}" letter-spacing="0.14em" opacity="0.7">BLUEPRINT VECTOR</text>
   <line x1="${vecX}" y1="320" x2="${vecX + barW + 40}" y2="320" stroke="${INK}" stroke-width="0.5" opacity="0.12"/>
   ${vecBars}
 
@@ -157,7 +157,7 @@ function dnaToSvg(dna) {
   <text x="60" y="448" font-family="monospace" font-size="10" fill="${MUTED}" letter-spacing="0.14em" opacity="0.7">PALETTE</text>
   ${swatches}
 
-  ${(dna.palette || [])
+  ${(blueprint.palette || [])
     .map((p, i) => {
       const x = swatchStartX + i * (swatchSize + swatchGap) + swatchSize / 2;
       return `<text x="${x}" y="${swatchY + swatchSize + 42}" font-family="monospace" font-size="8" fill="${ACCENT}" text-anchor="middle" letter-spacing="0.06em" opacity="0.8">${(p.role || '').toUpperCase()}</text>`;
@@ -184,13 +184,13 @@ function main() {
     raw = fs.readFileSync(0, 'utf8');
   }
 
-  const dna = JSON.parse(raw);
-  const svg = dnaToSvg(dna);
+  const blueprint = JSON.parse(raw);
+  const svg = blueprintToSvg(blueprint);
 
   if (arg) {
-    const outPath = path.join(path.dirname(path.resolve(arg)), 'design-dna.svg');
+    const outPath = path.join(path.dirname(path.resolve(arg)), 'design-blueprint.svg');
     fs.writeFileSync(outPath, svg);
-    console.log('✓ design-dna.svg written to', outPath);
+    console.log('✓ design-blueprint.svg written to', outPath);
   } else {
     process.stdout.write(svg);
   }
@@ -199,5 +199,5 @@ function main() {
 if (require.main === module) {
   main();
 } else {
-  module.exports = { dnaToSvg };
+  module.exports = { blueprintToSvg };
 }

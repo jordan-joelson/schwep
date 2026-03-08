@@ -885,7 +885,7 @@ function setupButtons() {
       handleSkip();
     }
   });
-  document.getElementById('btn-copy').addEventListener('click', copyDNA);
+  document.getElementById('btn-copy').addEventListener('click', copyBlueprint);
   document.getElementById('btn-again').addEventListener('click', () => {
     window.location.href = 'index.html';
   });
@@ -942,15 +942,15 @@ function showFinale() {
     console.error('Could not save vision', e);
   }
 
-  // Redirect to DNA reveal page
+  // Redirect to Blueprint reveal page
   setTimeout(() => {
-    window.location.href = 'dna.html';
+    window.location.href = 'blueprint.html';
   }, 500);
 }
 
-function copyDNA() {
-  const dna = JSON.stringify(results, null, 2);
-  navigator.clipboard.writeText(dna).then(() => {
+function copyBlueprint() {
+  const blueprint = JSON.stringify(results, null, 2);
+  navigator.clipboard.writeText(blueprint).then(() => {
     const btn = document.getElementById('btn-copy');
     const original = btn.textContent;
     btn.textContent = 'Copied!';
