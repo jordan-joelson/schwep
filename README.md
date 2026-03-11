@@ -12,3 +12,7 @@
 - Library of design docs from all users
 - Design doc component should include all colors, typography hierarchy, styles, frame, etc.
 - Look into google extension that works directly in llm chat
+- Nano banana integration ?
+- Very easy to use, avoid too much separation from the dominant tools
+- Output has to be very effective
+- API's to libraries or inspo
